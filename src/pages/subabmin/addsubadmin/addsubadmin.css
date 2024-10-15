@@ -1,0 +1,12 @@
+.img-box{
+    width: 15%;
+    height: 18vh;
+    border-radius: 10%;
+    background-color: rgb(174, 176, 175);
+}
+.addsubadmin-form dt{
+    margin-top: 4%;
+}
+.addsubadmin-form dd{
+ margin-top: .5%;
+}
