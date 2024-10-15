@@ -27,8 +27,8 @@ export function Applicantfinance() {
                     <button className="mx-4 mt-5 mb-5 btn py-3 " style={{ width: "20%", backgroundColor: "#c9e4ed" }}>My Applications</button>
                     <button className="mx-4 mt-5 mb-5 btn py-3 " style={{ width: "20%", backgroundColor: "#c9e4ed" }}>Documents from user</button>
                     <div>
-                        <button className={`btn ${btnclicked ? "btn btn-secondary" : btnstyle}  ms-2 px-4 me-5 py-3`} style={{ width: "20%" }} onClick={btnreordatransaction}>Record A Transaction</button>
-                        <button className={`btn ${btnclicked ? btnstyle : "btn btn-secondary"}  px-4 py-3`} style={{ width: "20%" }} onClick={btnviewtransaction}>View Transaction</button>
+                        <button className={`btn ${btnclicked ? "btn btn-secondary" : btnstyle}  ms-2 px-4 me-5 py-3`} style={{ width: "32%" }} onClick={btnreordatransaction}>Record A Transaction</button>
+                        <button className={`btn ${btnclicked ? btnstyle : "btn btn-secondary"}  px-4 py-3`} style={{ width: "32%" }} onClick={btnviewtransaction}>View Transaction</button>
                     </div>
                     {btnclicked ?
                         <form>
@@ -57,7 +57,7 @@ export function Applicantfinance() {
                                         label="Transaction Id"
                                     />
                                 </div>
-                                <button className="btn text-light mb-3" style={{backgroundColor:"#EA7139",width: "20%" }}>Submit</button>
+                                <button className="btn text-light mb-3" style={{backgroundColor:"#EA7139",width: "25%" }}>Submit</button>
                             </div>
                         </form>
                         :

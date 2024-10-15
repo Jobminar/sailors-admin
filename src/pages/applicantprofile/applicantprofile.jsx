@@ -21,19 +21,20 @@ export function Applicantprofile() {
                     <Userprofile applicantdetails={applicantdetails} />
 
                     <div >
-                        <div >
-                            <button style={{ width: "250px"}} className='my-5 btn btn-light applicantprofile fw-bold text-secondary  p-3'>
-                                Documents from user
-                            </button>
+                    <div  >
+                            <button style={{ width: "250px" }} className='my-5 btn btn-light applicantprofile  text-secondary p-3 fw-bold' onClick={applicantprofileapplication} >My Applications</button>
+
                         </div>
                         <div  >
                             <button style={{ width: "250px" }} className='my-5 btn btn-light applicantprofile  text-secondary fw-bold p-3' onClick={applicantfinanceclick}>
                                 Financials
                             </button >
                         </div>
-                        <div  >
-                            <button style={{ width: "250px" }} className='my-5 btn btn-light applicantprofile  text-secondary p-3 fw-bold' onClick={applicantprofileapplication} >My Applications</button>
-
+                        
+                        <div >
+                            <button style={{ width: "250px"}} className='my-5 btn btn-light applicantprofile fw-bold text-secondary  p-3'>
+                                Documents from user
+                            </button>
                         </div>
                     </div>
                 </div>

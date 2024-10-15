@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import filterimg from '../../assets/Images/filter.png'
 import { useEffect, useState } from "react"
 import axios from 'axios'
+import moment from 'moment'
 import { Applicantprofile } from '../applicantprofile/applicantprofile';
 const Myapplication = () => {
     const navigate = useNavigate();
@@ -10,19 +11,19 @@ const Myapplication = () => {
     const [selectedAdmitCard, setSelectedAdmitCard] = useState('');
     const [selectNumber, setSelectNumber] = useState('')
     const [interviewOutcome, setinterviewOutcome] = useState('')
+    const today = new Date().toISOString().split("T")[0];
     const [realdata, setRealdata] = useState([])
     const fakeData = [
-        { sno: 1, applicationNo: '110009997609', status: 'Approved', admitCard: 'NotGenerated', interviewOutcome: 'Approved', interviewDate: '27/06/24' },
-        { sno: 2, applicationNo: '110009997611', status: 'NotApproved', admitCard: 'NotGenerated', interviewOutcome: 'NA', interviewDate: '28/06/24' },
-        { sno: 3, applicationNo: '110009997612', status: 'Approved', admitCard: 'Generated', interviewOutcome: 'NA', interviewDate: '27/06/24' },
-        { sno: 4, applicationNo: '110009997613', status: 'NotApproved', admitCard: 'NotGenerated', interviewOutcome: 'Approved', interviewDate: '29/06/24' },
-        { sno: 5, applicationNo: '110009997614', status: 'NotApproved', admitCard: 'NotGenerated', interviewOutcome: 'NA', interviewDate: '1/07/24' },
-        { sno: 6, applicationNo: '110009997690', status: 'Approved', admitCard: 'Generated', interviewOutcome: 'Approved', interviewDate: '28/06/24' },
-        { sno: 7, applicationNo: '110009997615', status: 'Approved', admitCard: 'Generated', interviewOutcome: 'NA', interviewDate: '29/06/24' },
-        { sno: 8, applicationNo: '110009997610', status: 'NotApproved', admitCard: 'NotGenerated', interviewOutcome: 'Approved', interviewDate: '30/06/24' },
-        { sno: 9, applicationNo: '110009997616', status: 'Approved', admitCard: 'NotGenerated', interviewOutcome: 'NA', interviewDate: '28/06/24' },
+        { sno: 1, applicationNo: '999999999999', status: true, admitCard: 'NotGenerated', interviewOutcome: 'Approved', interviewDate: '27/06/24' },
+        { sno: 2, applicationNo: '110009997611', status: false , admitCard: 'NotGenerated', interviewOutcome: 'NA', interviewDate: '28/06/24' },
+        { sno: 3, applicationNo: '110009997612', status: true, admitCard: 'Generated', interviewOutcome: 'NA', interviewDate: '27/06/24' },
+        { sno: 4, applicationNo: '110009997613', status: false, admitCard: 'NotGenerated', interviewOutcome: 'Approved', interviewDate: '29/06/24' },
+        { sno: 5, applicationNo: '110009997614', status: true, admitCard: 'NotGenerated', interviewOutcome: 'NA', interviewDate: '1/07/24' },
+        { sno: 6, applicationNo: '110009997690', status: false, admitCard: 'Generated', interviewOutcome: 'Approved', interviewDate: '28/06/24' },
+        { sno: 7, applicationNo: '110009997615', status: true, admitCard: 'Generated', interviewOutcome: 'NA', interviewDate: '29/06/24' },
+        { sno: 8, applicationNo: '110009997610', status: false, admitCard: 'NotGenerated', interviewOutcome: 'Approved', interviewDate: '30/06/24' },
+        { sno: 9, applicationNo: '110009997616', status: true, admitCard: 'NotGenerated', interviewOutcome: 'NA', interviewDate: '28/06/24' },
     ];
-
     async function fetchapplicationdata() {
         try {
             const response = await axios.get("http://127.0.0.1:7000/candidate")
@@ -72,6 +73,10 @@ const Myapplication = () => {
         navigate(`/dashboardadmin/applicantprofile/${applicationNo}`);
     };
 
+    const applicationStatusClicked=(applicationNo)=>{
+
+        navigate(`/dashboardadmin/applicationform`);
+    }
     return (
         <div>
 
@@ -86,14 +91,14 @@ const Myapplication = () => {
                             Filter By
                         </button>
                         <button className="btn btn-light">
-                            <select className="form-select" value={selectedDate} onChange={handleDateChange}>
-                                <option value="">Select Date</option>
-                                <option value="27/06/24">27/06/24</option>
-                                <option value="28/06/24">28/06/24</option>
-                                <option value="29/06/24">29/06/24</option>
-                                <option value="30/06/24">30/06/24</option>
-                                <option value="01/07/24">01/07/24</option>
-                            </select>
+                            <input
+                                className="form-control"
+                                type="date"
+                                value={selectedDate}
+                                onChange={handleDateChange}
+                                min="2024-10-12"  
+                                max={today}  
+                            />
                         </button>
                         <button className="btn btn-light">
                             <select className="form-select" value={selectedStatus} onChange={handleStatusChange}>
@@ -129,13 +134,13 @@ const Myapplication = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {realdata.map((item, index) => (
+                                {fakeData.map((item, index) => (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
                                         <td onClick={() => rollNoClicked(item.applicationNo)} style={{ cursor: 'pointer' }}>
                                             {item.applicationNo}
                                         </td>
-                                        <td>{item.status ? "Approved" : "Rejected"}</td>
+                                        <td onClick={()=>applicationStatusClicked(item.applicationNo)} style={{ cursor: 'pointer' }}>{item.status ? "Approved" : "Rejected"}</td>
                                         <td>{item.admitCard ? "Generated" : "N/A"}</td>
                                         <td>{item.interviewOutcome ? "Approved" : "N/A"}</td>
                                     </tr>

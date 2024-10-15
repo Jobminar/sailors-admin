@@ -19,6 +19,7 @@ import { Confirmationletterhead } from "./pages/confirmation/confirmationletter"
 import { Admitcardletterhead } from "./pages/admitcard/admitcardletter";
 import Addsubadmin from "./pages/subabmin/addsubadmin/addsubadmin";
 import FileDisplay from "./pages/subabmin/addinsubadmin3/addsubadminn3";
+import ApplicationForm from "./pages/myapplication/applicationform/applicationform";
 
 const Routing = () => {
   return (
@@ -34,6 +35,7 @@ const Routing = () => {
             <Route path="admitcarddashboard" element={<Admitcarddashboard />} />
             <Route path="interviewSchedule" element={<InterviewSchedule />} />
             <Route path="applicantprofileapplication" element={<Applicantprofileapplication />} />
+            <Route path="applicationform" element={<ApplicationForm  /> } />  
             <Route path="applicantprofile" element={<Applicantprofile />} />
             <Route path="applicantprofile/:applicationNo" element={<Applicantprofile />} />
             <Route path="applicantfinance" element={<Applicantfinance />} />
@@ -49,6 +51,7 @@ const Routing = () => {
           </Route>
           <Route path="fileDisplay" element={<FileDisplay />} />
         </Routes>
+        
       </BrowserRouter>
     </>
   );

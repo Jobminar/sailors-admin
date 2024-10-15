@@ -1,0 +1,4 @@
+.PersonDetails{
+    display:grid;
+    grid-template-columns: 6fr 6fr;
+}
