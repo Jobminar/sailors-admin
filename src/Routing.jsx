@@ -9,7 +9,6 @@ import { Headeradmin } from "./components/headeradmin/headeradmin";
 import Selectionpage from "./pages/selectionletter/selection";
 import SelectionProfile from "./pages/selectionprofile/selectionprofile";
 import { Selectionletterhead } from "./pages/letters/selectionletterhead/selectionletterhead";
-import Subadmin from "./pages/subadmin/subadmin";
 import Enquires from "./pages/Enquires/enquires";
 import { Applicantfinance } from "./pages/Financials/financials";
 import Admitcarddashboard from "./pages/admitcard/admitcarddashboard";
@@ -17,9 +16,10 @@ import { Confirmationdashboard } from "./pages/confirmation/confirmationdashboar
 import { Confirmationprofile } from "./pages/confirmation/confirmationprofile";
 import { Confirmationletterhead } from "./pages/confirmation/confirmationletter";
 import { Admitcardletterhead } from "./pages/admitcard/admitcardletter";
-import Addsubadmin from "./pages/subabmin/addsubadmin/addsubadmin";
 import FileDisplay from "./pages/subabmin/addinsubadmin3/addsubadminn3";
 import ApplicationForm from "./pages/myapplication/applicationform/applicationform";
+import Subadmin from "./pages/subadmin/subadmin";
+import Addsubadmin from "./pages/subabmin/addsubadmin/addsubadmin";
 
 const Routing = () => {
   return (
@@ -45,9 +45,10 @@ const Routing = () => {
             <Route path="confirmationdashboard" element={<Confirmationdashboard />} />
             <Route path="confirmationprofile/:applicationNo" element={<Confirmationprofile />} />
             <Route path="confirmationletter/:applicationNo" element={<Confirmationletterhead />} />
-            <Route path="enquires" element={<Enquires />} />
+            <Route path="enquires" element={<Enquires />} /> 
             <Route path="subadmin" element={<Subadmin />} />
-            <Route path="addsubadmin" element={<Addsubadmin />} />
+            <Route path="subadmin/addadmin" element={<Addsubadmin/>} />
+
           </Route>
           <Route path="fileDisplay" element={<FileDisplay />} />
         </Routes>

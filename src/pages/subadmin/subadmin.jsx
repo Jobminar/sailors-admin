@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import profileimg from '../../assets/Images/dp-dummy.png'
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
 const Subadmin = () => {
     const[userDetail,setuserDetail] = useState([])
@@ -8,7 +9,7 @@ const Subadmin = () => {
         try{
             const userdata = await axios.get('http://127.0.0.1:7000/candidate')
             const users = userdata.data;
-            const filteredUsers = users.find((user) => user.applicationId === 1203569858);
+            const filteredUsers = users.find((user) => user.applicationId === 1265736140);
             console.log(filteredUsers)
             setuserDetail(filteredUsers)
         }catch(error){
@@ -28,7 +29,7 @@ const Subadmin = () => {
                         </div>
                     </div>
                     <div className="text-end">
-                        <button className="btn btn-outline-primary">Add New Sub Admin</button>
+                        <Link className="btn btn-outline-primary" to='/dashboardadmin/subadmin/addadmin'>Add New Sub Admin</Link>
                         <br />
                         <div className="btn-group mt-4 border border-1">
                             <button className=" btn btn-outline-light btn btn-outline-light bi-funnel text-dark p-3 border border-1 "></button>

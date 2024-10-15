@@ -4,13 +4,15 @@ import { Adminsidebar } from "../../components/adminsidebar/adminsidebar";
 
 export function Dashboardadmin() {
   const [selectedItem, setSelectedItem] = useState("dashboardadmin");
+  const Handileprint = () => {
 
+  }
   return (
     <div>
       <div style={{ display: "flex" }}>
-        <Adminsidebar selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
-        <div style={{width:"100%", overflow: "scroll", height: "90vh" }}>
-          <Outlet /> 
+          <Adminsidebar selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
+        <div style={{ width: "100%", overflow: "scroll", height: "90vh" }}>
+          <Outlet />
         </div>
       </div>
     </div>
