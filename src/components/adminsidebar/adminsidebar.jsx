@@ -7,6 +7,7 @@ export function Adminsidebar({ selectedItem, setSelectedItem }) {
     
     const handleItemClick = useCallback((e) => {
         const newValue = e.target.getAttribute('value');
+        console.log(newValue,'check only name')
         if(newValue=="dashboardadmin"){
             navigate('/dashboardadmin')
         }else{
@@ -87,7 +88,7 @@ export function Adminsidebar({ selectedItem, setSelectedItem }) {
                 </h1>
                 <h1
                     className="list-heading p-3 my-3"
-                    value="addsubadmin"
+                    value="subadmin"
                     onClick={handleItemClick}
                     style={getItemStyle("addsubadmin")}
                 >

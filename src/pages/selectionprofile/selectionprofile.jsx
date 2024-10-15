@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Profile from '../profile/profile';
+import moment from 'moment'
 
 const SelectionProfile = () => {
     const [applicantdetails, setApplicantDetails] = useState([])
@@ -9,6 +10,7 @@ const SelectionProfile = () => {
     const [date, setDate] = useState(null)
     const params = useParams()
     const navigate = useNavigate('')
+    // const today = moment().format('YYYY-MM-DD');
     const fetchdata = async () => {
         try {
             const usedata = await axios.get('http://127.0.0.1:7000/candidate')
@@ -46,15 +48,16 @@ const SelectionProfile = () => {
                         <Profile applicantdetail={applicantdetails} />
                     </div>
                     <button className="ms-2 mt-5 mb-2 px-4 btn  fw-bold">Details of {applicantdetails.candidateName} </button>
-                    <div className='row bg-dark-subtle mx-3 fs-5 rounded-2 py-3 mb-3'>
+                    <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
                         <div className='col-6'>
                             Application number
                         </div>
                         <div className='col-6'>
-                            3316329708
+                            {applicantdetails.applicationId}
+                            {/* 3316329708 */}
                         </div>
                     </div>
-                    <div className='row bg-dark-subtle mx-3 fs-5 rounded-2 py-3 mb-3'>
+                    <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
                         <div className='col-6'>
                             Application Status
                         </div>
@@ -66,16 +69,16 @@ const SelectionProfile = () => {
                             </select>
                         </div>
                     </div>
-                    <div className='row bg-dark-subtle mx-3 fs-5 rounded-2 py-3 mb-3'>
+                    <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
                         <div className='col-6'>
                             Date of applied
 
                         </div>
                         <div className='col-6'>
-                            xxxx
+                        {moment(applicantdetails.createdAt).format('YYYY-MM-DD')}
                         </div>
                     </div>
-                    <div className='row bg-dark-subtle mx-3 fs-5 rounded-2 py-3 mb-3'>
+                    <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
                         <div className='col-6'>
                             Initial Amount
                         </div>
@@ -84,16 +87,16 @@ const SelectionProfile = () => {
 
                         </div>
                     </div>
-                    <div className='row bg-dark-subtle mx-3 fs-5 rounded-2 py-3 mb-3'>
+                    <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
                         <div className='col-6'>
                             Deadline date
                         </div>
                         <div className='col-6'>
-                            <input type="date" name="Deadline" className='form-control bg-transparent' onChange={(e) => setDate(e.target.value)} />
+                            <input type="date" name="Deadline" min={moment().format('YYYY-MM-DD')} className='form-control bg-transparent' onChange={(e) => setDate(e.target.value)} />
                         </div>
                     </div>
                     <div className={`text-center  ${show}`}>
-                        <button className='btn btn-info py-3 fs-4' onClick={HandileGenerate}>Generate Selection Letter</button>
+                        <button className='btn py-3 fs-4' style={{backgroundColor:'#0486aa'}} onClick={HandileGenerate}>Generate Selection Letter</button>
                     </div>
                 </div>
             </div>
