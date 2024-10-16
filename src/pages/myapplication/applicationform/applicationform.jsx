@@ -1,80 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, TextField, MenuItem, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Myapplication from '../myapplication';
 
 const ApplicationForm = () => {
   const navigate=useNavigate()
-  const [formData, setFormData] = useState({
-    applyFor: '',
-    candidateName: '',
-    fatherName: '',
-    dob: '',
-    gender: 'Male',
-    mobileNumber: '',
-    email: '',
-    houseNo: '',
-    postOffice: '',
-    policeStation: '',
-    district: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    tenthschool: '',
-    tenthyear: '',
-    tenthpercentage: '',
-    twelfthschool: '',
-    twelfthyear: '',
-    twelfthpercentage: '', // Corrected the typo here
-    degreeschool: '',
-    degreeyear: '',
-    degreepercentage: '',
-    // passport: '',
-    // class10th: '',
-    // aadhar: '',
-    // files: {},
-  });
-  const [passport, setPassport] = useState(null);
-  const [class10th, setClass10th] = useState(null);
-  const [aadhar, setAadhar] = useState(null);
-  const [number, setNumber] = useState(''); // New state for user's number
-  const [message, setMessage] = useState('');
-
-  const handlePassportChange = (event) => {
-    setPassport(event.target.files); // Get files from the passport input
-  };
-
-  const handleClass10thChange = (event) => {
-    setClass10th(event.target.files); // Get files from the class 10th certificate input
-  };
-
-  const handleAadharChange = (event) => {
-    setAadhar(event.target.files); // Get files from the Aadhar input
-  };
-
-  const handleNumberChange = (event) => {
-    setNumber(event.target.value); // Capture the user's number
-  };
-
- 
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  function handlerejectedClicked(){
-    navigate('/dashboardadmin/myapplication')
-    
+  const [formData, setFormData] = useState({});
+  const params = useParams()
+  const Getuserdata = async()=>{
+    try{
+      const values = await axios.get('http://127.0.0.1:7000/candidate');
+      const userdata = values.data
+      const finduser = userdata.find((user)=> user.applicationId  === parseInt(params.id));
+      setFormData(finduser) 
+    }catch(error){
+      console.log(error)
+    }
   }
-function handleapprovedClicked(){
-  navigate('/dashboardadmin/myapplication')
-}
+  useEffect(()=>{
+    Getuserdata()
+  },[])
 
   return (
     <>
@@ -103,10 +50,8 @@ function handleapprovedClicked(){
                 <div className="fw-medium me-2">Apply for post</div>
                 <TextField
                   required
-                  label="Apply for post"
                   name="applyFor"
                   value={formData.applyFor}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -116,10 +61,8 @@ function handleapprovedClicked(){
                 <TextField
                   required
                   fullWidth
-                  label="Candidate name"
                   name="candidateName"
                   value={formData.candidateName}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -129,10 +72,8 @@ function handleapprovedClicked(){
                 <TextField
                   required
                   fullWidth
-                  label="Father name"
                   name="fatherName"
                   value={formData.fatherName}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -142,11 +83,9 @@ function handleapprovedClicked(){
                 <TextField
                   required
                   fullWidth
-                  label="Date of birth"
                   name="dob"
                   placeholder="DD-MM-YY"
                   value={formData.dob}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -154,18 +93,12 @@ function handleapprovedClicked(){
               {/* Gender */}
               <Grid item xs={12} sm={6}>
                 <TextField
-                  select
                   fullWidth
-                  label="Gender"
-                  name="gender"
+                  name="dob"
+                  placeholder="DD-MM-YY"
                   value={formData.gender}
-                  onChange={handleInputChange}
                   variant="outlined"
-                >
-                  <MenuItem value="Male">Male</MenuItem>
-                  <MenuItem value="Female">Female</MenuItem>
-                  <MenuItem value="Other">Other</MenuItem>
-                </TextField>
+                />
               </Grid>
 
               {/* Mobile number */}
@@ -173,10 +106,8 @@ function handleapprovedClicked(){
                 <TextField
                   required
                   fullWidth
-                  label="Mobile number"
                   name="mobileNumber"
                   value={formData.mobileNumber}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -186,10 +117,8 @@ function handleapprovedClicked(){
                 <TextField
                   required
                   fullWidth
-                  label="Email Id"
                   name="email"
                   value={formData.email}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -209,10 +138,8 @@ function handleapprovedClicked(){
                 <TextField
                   required
                   fullWidth
-                  label="House Number"
                   name="houseNo"
                   value={formData.houseNo}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -220,10 +147,8 @@ function handleapprovedClicked(){
                 <TextField
                   required
                   fullWidth
-                  label="Post office"
                   name="postOffice"
                   value={formData.postOffice}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -231,10 +156,8 @@ function handleapprovedClicked(){
                 <TextField
                   required
                   fullWidth
-                  label="Police station"
                   name="policeStation"
                   value={formData.policeStation}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -242,10 +165,8 @@ function handleapprovedClicked(){
                 <TextField
                   required
                   fullWidth
-                  label="District"
                   name="district"
                   value={formData.district}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -254,10 +175,8 @@ function handleapprovedClicked(){
                 <TextField
                   required
                   fullWidth
-                  label="City"
                   name="city"
                   value={formData.city}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -266,10 +185,8 @@ function handleapprovedClicked(){
                 <TextField
                   required
                   fullWidth
-                  label="State"
                   name="state"
                   value={formData.state}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -278,10 +195,8 @@ function handleapprovedClicked(){
                 <TextField
                   required
                   fullWidth
-                  label="Postal Code"
                   name="postalCode"
                   value={formData.postalCode}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -324,7 +239,6 @@ function handleapprovedClicked(){
                   fullWidth
                   name="tenthschool"
                   value={formData.tenthschool}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -334,7 +248,6 @@ function handleapprovedClicked(){
                   fullWidth
                   name="tenthyear"
                   value={formData.tenthyear}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -344,7 +257,6 @@ function handleapprovedClicked(){
                   fullWidth
                   name="tenthpercentage"
                   value={formData.tenthpercentage}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -359,7 +271,6 @@ function handleapprovedClicked(){
                   fullWidth
                   name="twelfthschool"
                   value={formData.twelfthschool}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -369,7 +280,6 @@ function handleapprovedClicked(){
                   fullWidth
                   name="twelfthyear"
                   value={formData.twelfthyear}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -379,7 +289,6 @@ function handleapprovedClicked(){
                   fullWidth
                   name="twelfthpercentage"
                   value={formData.twelfthpercentage}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -394,7 +303,6 @@ function handleapprovedClicked(){
                   fullWidth
                   name="degreeschool"
                   value={formData.degreeschool}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -404,7 +312,6 @@ function handleapprovedClicked(){
                   fullWidth
                   name="degreeyear"
                   value={formData.degreeyear}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -414,7 +321,6 @@ function handleapprovedClicked(){
                   fullWidth
                   name="degreepercentage"
                   value={formData.degreepercentage}
-                  onChange={handleInputChange}
                   variant="outlined"
                 />
               </Grid>
@@ -441,14 +347,14 @@ function handleapprovedClicked(){
               <button
                 style={{ backgroundColor: "#0486AA" }}
                 className="btn  text-light px-5 py-2 mt-4"
-                onClick={handlerejectedClicked}
+                // onClick={handlerejectedClicked}
               >
                 REJECTED
               </button>
               <button
                 style={{ backgroundColor: "#0486AA" }}
                 className='btn text-light px-5 py-2 mt-4 ms-2'
-                onClick={handleapprovedClicked}
+                // onClick={handleapprovedClicked}
               >
                 APPROVED
               </button>

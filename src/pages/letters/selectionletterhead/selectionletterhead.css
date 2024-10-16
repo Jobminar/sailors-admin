@@ -1,26 +1,24 @@
 .modal-body-leterhead-selectionhead {
-    position: relative; /* add this */
-    height: 100vh;
-  }
-  #selectionlettermodal{
-    width: 60%;
-    border:1px solid gray ;
-    padding: 5px;
-  }
-  .modal-body-leterhead-selectionhead::before {
-    content: "";
-    background-image: url("../../../assets/Images/logo.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    opacity: 0.2;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 50%;
-    z-index: 0;
-    /* margin-top: 5%; */
-  }
+  position: relative; /* add this */
+  height: 100vh;
+}
+#selectionlettermodal{
+  width: 60%;
+}
+.modal-body-leterhead-selectionhead::before {
+  content: "";
+  background-image: url("../../../assets/Images/logo.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  z-index: 0;
+  /* margin-top: 5%; */
+}
 .leterheadtitle{
-    font-family: Nunito Sans;
+  font-family: Nunito Sans;
 }

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './confirmationletter.css'
 import profile from '../../assets/Images/dp-dummy.png'
 import { useNavigate } from 'react-router-dom'
-import { Userprofile } from '../../components/userprofile/userprofile'
+import Profile from '../profile/profile'
 export function Confirmationprofile() {
     const navigate=useNavigate();
     const [applicantdetails, setapplicatdetails] = useState({ name: "Nikhil Raj", DOB: "29/08/2001", Gmail: "Nikhilraj2908@gmail.com", Location: "Vidisha" })
@@ -15,7 +15,7 @@ export function Confirmationprofile() {
             <div className='container row'>
                 <div className='col-9 ' style={{ width: "100%"}}>
                     <div className='fw-bold fs-5 '>About</div>
-                    <Userprofile applicantdetails={applicantdetails} />
+                    <Profile applicantdetails={applicantdetails} />
                     <div className='fw-bold fs-5 mt-3'>Details of {applicantdetails.name}</div>
                     <div className='mt-4 text-secondary'>
                         <div className='row py-1 mb-3 bg-light'>

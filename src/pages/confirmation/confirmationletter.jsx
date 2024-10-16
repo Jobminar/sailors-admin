@@ -1,14 +1,19 @@
 import { useParams } from "react-router-dom";
 import leterheadheader from "../../assets/Images/letterheadheader.png";
 import "./confirmationletter.css";
+import {useRef} from "react";
+import { useReactToPrint } from "react-to-print";
 
 export function Confirmationletterhead() {
     const params = useParams();
     const applicationNo = params.applicationNo;
+    const contentRef = useRef(null);
+    const reactToPrintFn = useReactToPrint({ contentRef });
     return (
         <div className="d-flex justify-content-center">
             <div className="modalfade border border-1 " style={{height:"145vh"}}  id="confirmationlettermodal">
-                <div className="p-2">
+                <button onClick={reactToPrintFn} className="btn btn-warning">Print</button>
+                <div className="p-2" ref={contentRef}>
                     <div className="modal-head">
                         <img
                             src={leterheadheader}

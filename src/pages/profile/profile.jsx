@@ -13,7 +13,6 @@ const Profile = ({ applicantdetail }) => {
                         <div className='row'>
                             <dt className='col-3'>Name:</dt>
                             <dd className='col-9'>{applicantdetail.candidateName}</dd>
-
                         </div>
                         <div className='row'>
                             <dt className='col-3'>Birth Date:</dt>
