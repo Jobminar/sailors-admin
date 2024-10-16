@@ -4,6 +4,8 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 import moment from 'moment'
 import { Applicantprofile } from '../applicantprofile/applicantprofile';
+import { Cookie } from '@mui/icons-material';
+import { useCookies } from 'react-cookie';
 const Myapplication = () => {
     const navigate = useNavigate();
     const [selectedDate, setSelectedDate] = useState('');
@@ -13,6 +15,7 @@ const Myapplication = () => {
     const [interviewOutcome, setinterviewOutcome] = useState('')
     const today = new Date().toISOString().split("T")[0];
     const [realdata, setRealdata] = useState([])
+    const[cookie,setcookie,removecookie]=useCookies()
     const fakeData = [
         { sno: 1, applicationNo: '999999999999', status: true, admitCard: 'NotGenerated', interviewOutcome: 'Approved', interviewDate: '27/06/24' },
         { sno: 2, applicationNo: '110009997611', status: false , admitCard: 'NotGenerated', interviewOutcome: 'NA', interviewDate: '28/06/24' },
@@ -126,11 +129,12 @@ const Myapplication = () => {
                         <table className="table table-striped table-bordered">
                             <thead className="thead-light">
                                 <tr>
-                                    <th>S.no</th>
+                                    <th>S.No</th>
                                     <th>Application No.</th>
                                     <th>Application Status</th>
                                     <th>Admit Card</th>
-                                    <th>Interview outcomme</th>
+                                    <th>Interview Outcomme</th>
+                                    <th>Officer Name</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -143,6 +147,8 @@ const Myapplication = () => {
                                         <td onClick={()=>applicationStatusClicked(item.applicationNo)} style={{ cursor: 'pointer' }}>{item.status ? "Approved" : "Rejected"}</td>
                                         <td>{item.admitCard ? "Generated" : "N/A"}</td>
                                         <td>{item.interviewOutcome ? "Approved" : "N/A"}</td>
+                                        <td>{cookie.admin}</td>
+                                        <img src=''></img>
                                     </tr>
                                 ))}
                             </tbody>
