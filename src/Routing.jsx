@@ -27,6 +27,7 @@ const Routing = () => {
       <BrowserRouter>
         <Headeradmin />
         <Routes>
+        applicantprofileapplication
           <Route path="/" element={<Dashboardadmin />} />
           <Route path="/dashboardadmin" element={<Dashboardadmin />}>
             <Route path="myapplication" element={<Myapplication />} />
@@ -34,11 +35,11 @@ const Routing = () => {
             <Route path="admitcardletter/:applicationNo" element={<Admitcardletterhead />} />
             <Route path="admitcarddashboard" element={<Admitcarddashboard />} />
             <Route path="interviewSchedule" element={<InterviewSchedule />} />
-            <Route path="applicantprofileapplication" element={<Applicantprofileapplication />} />
-            <Route path="applicationform" element={<ApplicationForm  /> } />  
+            <Route path="applicantprofileapplication/:id" element={<Applicantprofileapplication />} />
+            <Route path="applicationstatus/:id" element={<ApplicationForm  /> } />  
             <Route path="applicantprofile" element={<Applicantprofile />} />
             <Route path="applicantprofile/:applicationNo" element={<Applicantprofile />} />
-            <Route path="applicantfinance" element={<Applicantfinance />} />
+            <Route path="applicantfinance/:id" element={<Applicantfinance />} />
             <Route path="selectionletter" element={<Selectionpage />} />
             <Route path="selectionletter/:id" element={<SelectionProfile />} />
             <Route path="selectionletter/:id/letter" element={<Selectionletterhead />} />

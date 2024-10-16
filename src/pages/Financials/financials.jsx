@@ -1,15 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextField from '@mui/material/TextField';
-import { Userprofile } from '../../components/userprofile/userprofile';
+import Profile from "../profile/profile";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 export function Applicantfinance() {
-    const [applicantdetails, setapplicatdetails] = useState({ name: "Nikhil ahirwar", DOB: "29/08/2001", Gmail: "Nikhilraj2908@gmail.com", Location: "Vidisha" })
+    const [applicantdetails, setapplicatdetails] = useState({})
     const [btnclicked, setbtnclicked] = useState(true)
-    const [transactions, settransactions] = useState([
-        { sNo: "01", amountPaid: "xxxxx/-", date: "xx-xx-xxxx", transactionId: "110009997610" },
-        { sNo: "02", amountPaid: "xxxxx/-", date: "xx-xx-xxxx", transactionId: "110009997611" },
-        { sNo: "03", amountPaid: "xxxxx/-", date: "xx-xx-xxxx", transactionId: "110009997612" },
-        { sNo: "04", amountPaid: "xxxxx/-", date: "xx-xx-xxxx", transactionId: "110009997613" }
-    ]);
+    const params = useParams()
+    const [transactions, settransactions] = useState([]);
     const [btnstyle, setbtnstyle] = useState("btn btn-outline-secondary")
     function btnviewtransaction() {
         setbtnclicked(false)
@@ -17,12 +15,29 @@ export function Applicantfinance() {
     function btnreordatransaction() {
         setbtnclicked(true)
     }
+    const finduser = async() =>{
+        try{
+            const usedata = await axios.get('http://127.0.0.1:7000/candidate')
+            const users = usedata.data;
+            const findUsers = users.find((user) => user.applicationId === parseInt(params.id));
+            const filterusers = users.filter((user)=> user.applicationId === parseInt(params.id))
+            settransactions(filterusers)
+            setapplicatdetails(findUsers)
+
+            console.log(params)
+        }catch(error){
+
+        }
+    }
+    useEffect(()=>{
+        finduser()
+    },[])
     return (
         <div>
-            <div className="container row mt-2" style={{ height: "90vh", overflow: "scroll", }}>
-                <div className="col-9 " style={{ width: "100%" }}>
-                    <div className='fw-bold fs-5 '>About</div>
-                    <Userprofile applicantdetails={applicantdetails} />
+            <div className="container row mt-2 p-3" style={{ height: "90vh", overflow: "scroll", }}>
+                <div className="col-9" >
+                    <div className='fw-bold fs-5 mb-3'>About</div>
+                    <Profile applicantdetail={applicantdetails} />
                     <button className="ms-2 me-4 mt-5 mb-5 btn py-3 " style={{ width: "20%", backgroundColor: "#c9e4ed" }}>Finance</button>
                     <button className="mx-4 mt-5 mb-5 btn py-3 " style={{ width: "20%", backgroundColor: "#c9e4ed" }}>My Applications</button>
                     <button className="mx-4 mt-5 mb-5 btn py-3 " style={{ width: "20%", backgroundColor: "#c9e4ed" }}>Documents from user</button>

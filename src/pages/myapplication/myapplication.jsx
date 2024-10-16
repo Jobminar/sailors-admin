@@ -4,78 +4,54 @@ import { useEffect, useState } from "react"
 import axios from 'axios'
 import moment from 'moment'
 import { Applicantprofile } from '../applicantprofile/applicantprofile';
+
 const Myapplication = () => {
     const navigate = useNavigate();
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
     const [selectedAdmitCard, setSelectedAdmitCard] = useState('');
-    const [selectNumber, setSelectNumber] = useState('')
     const [interviewOutcome, setinterviewOutcome] = useState('')
     const today = new Date().toISOString().split("T")[0];
-    const [realdata, setRealdata] = useState([])
-    const fakeData = [
-        { sno: 1, applicationNo: '999999999999', status: true, admitCard: 'NotGenerated', interviewOutcome: 'Approved', interviewDate: '27/06/24' },
-        { sno: 2, applicationNo: '110009997611', status: false , admitCard: 'NotGenerated', interviewOutcome: 'NA', interviewDate: '28/06/24' },
-        { sno: 3, applicationNo: '110009997612', status: true, admitCard: 'Generated', interviewOutcome: 'NA', interviewDate: '27/06/24' },
-        { sno: 4, applicationNo: '110009997613', status: false, admitCard: 'NotGenerated', interviewOutcome: 'Approved', interviewDate: '29/06/24' },
-        { sno: 5, applicationNo: '110009997614', status: true, admitCard: 'NotGenerated', interviewOutcome: 'NA', interviewDate: '1/07/24' },
-        { sno: 6, applicationNo: '110009997690', status: false, admitCard: 'Generated', interviewOutcome: 'Approved', interviewDate: '28/06/24' },
-        { sno: 7, applicationNo: '110009997615', status: true, admitCard: 'Generated', interviewOutcome: 'NA', interviewDate: '29/06/24' },
-        { sno: 8, applicationNo: '110009997610', status: false, admitCard: 'NotGenerated', interviewOutcome: 'Approved', interviewDate: '30/06/24' },
-        { sno: 9, applicationNo: '110009997616', status: true, admitCard: 'NotGenerated', interviewOutcome: 'NA', interviewDate: '28/06/24' },
-    ];
-    async function fetchapplicationdata() {
+    const [usersdata, setusersdata] = useState([])
+
+    const fetchdata = async () => {
         try {
-            const response = await axios.get("http://127.0.0.1:7000/candidate")
-            setRealdata(response.data);
-            console.log(realdata);
+            const values = await axios.get('http://127.0.0.1:7000/candidate')
+            setusersdata(values.data)
+        } catch (error) {
+            console.log(error)
         }
-
-        catch (err) { console.log(err) };
     }
-
+    console.log(usersdata.map((item) => item.applicationstatus, 'hello'))
     useEffect(() => {
-        fetchapplicationdata();
+        fetchdata();
     }, [])
 
 
 
-    const filteredData = realdata.filter((item) => {
+    const filteredData = usersdata.filter((item) => {
         if (selectedDate && item.interviewDate !== selectedDate) {
             return false
         };
-        if (selectedStatus && item.status !== selectedStatus) {
+        if (selectedStatus && (item.applicationstatus ? 'Approved' : 'Not Approved') !== selectedStatus) {
             return false
         };
-        if (selectedAdmitCard && item.admitCard !== selectedAdmitCard) {
+        if (selectedAdmitCard && (item.applicationstatus ? 'Generated' : 'Not Generated') !== selectedAdmitCard) {
             return false
         };
-        if (selectNumber && item.applicationNo !== selectNumber) {
+        if (interviewOutcome && (item.applicationstatus ? 'Approved' : 'Not Approved') !== interviewOutcome) {
             return false;
         }
 
         return true;
     });
-
-    const handleDateChange = (e) => {
-        setSelectedDate(e.target.value);
-    };
-
-    const handleStatusChange = (e) => {
-        setSelectedStatus(e.target.value);
-    };
-
-    const handleAdmitCardChange = (e) => {
-        setSelectedAdmitCard(e.target.value);
-    };
-
     const rollNoClicked = (applicationNo) => {
         navigate(`/dashboardadmin/applicantprofile/${applicationNo}`);
     };
 
-    const applicationStatusClicked=(applicationNo)=>{
+    const applicationStatusClicked = (applicationNo) => {
 
-        navigate(`/dashboardadmin/applicationform`);
+        navigate(`/dashboardadmin/applicationstatus/${applicationNo}`);
     }
     return (
         <div>
@@ -95,30 +71,39 @@ const Myapplication = () => {
                                 className="form-control"
                                 type="date"
                                 value={selectedDate}
-                                onChange={handleDateChange}
-                                min="2024-10-12"  
-                                max={today}  
+                                onChange={(e) => { setSelectedDate(e.target.value) }}
+                                min="2024-10-12"
+                                max={today}
                             />
                         </button>
                         <button className="btn btn-light">
-                            <select className="form-select" value={selectedStatus} onChange={handleStatusChange}>
+                            <select className="form-select" value={selectedStatus} onChange={(e) => { setSelectedStatus(e.target.value) }}>
                                 <option value="">Application Status</option>
-                                <option value="Approved">Approved</option>
-                                <option value="NotApproved">NotApproved</option>
+                                {
+                                    [...new Set(usersdata.map(item => (item.applicationstatus) ? 'Approved' : 'Not Approved'))].map(item => (
+                                        <option value={item}>{item}</option>
+                                    ))
+                                }
                             </select>
                         </button>
                         <button className="btn btn-light">
-                            <select className="form-select" value={selectedAdmitCard} onChange={handleAdmitCardChange}>
+                            <select className="form-select" value={selectedAdmitCard} onChange={(e) => { setSelectedAdmitCard(e.target.value) }}>
                                 <option value="">Admit Card</option>
-                                <option value="Generated">Generated</option>
-                                <option value="NotGenerated">NotGenerated</option>
+                                {
+                                    [...new Set(usersdata.map(item => (item.applicationstatus) ? 'Generated' : 'Not Generated'))].map(item => (
+                                        <option value={item}>{item}</option>
+                                    ))
+                                }
                             </select>
                         </button>
                         <button className="btn btn-light">
-                            <select className="form-select" value={interviewOutcome} onChange={handleAdmitCardChange}>
+                            <select className="form-select" value={interviewOutcome} onChange={(e) => { setinterviewOutcome(e.target.value) }}>
                                 <option value="">Interview Outcomes</option>
-                                <option value="">Approved</option>
-                                <option value="">NotGenerated</option>
+                                {
+                                    [...new Set(usersdata.map(item => (item.applicationstatus) ? 'Approved' : 'Not Approved'))].map(item => (
+                                        <option value={item}>{item}</option>
+                                    ))
+                                }
                             </select>
                         </button>
                     </div>
@@ -134,15 +119,15 @@ const Myapplication = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {fakeData.map((item, index) => (
+                                {filteredData.map((item, index) => (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
-                                        <td onClick={() => rollNoClicked(item.applicationNo)} style={{ cursor: 'pointer' }}>
-                                            {item.applicationNo}
+                                        <td onClick={() => rollNoClicked(item.applicationId)} style={{ cursor: 'pointer' }}>
+                                            {item.applicationId}
                                         </td>
-                                        <td onClick={()=>applicationStatusClicked(item.applicationNo)} style={{ cursor: 'pointer' }}>{item.status ? "Approved" : "Rejected"}</td>
-                                        <td>{item.admitCard ? "Generated" : "N/A"}</td>
-                                        <td>{item.interviewOutcome ? "Approved" : "N/A"}</td>
+                                        <td onClick={() => applicationStatusClicked(item.applicationId)} style={{ cursor: 'pointer' }}>{item.applicationstatus ? "Approved" : "Rejected"}</td>
+                                        <td>{item.applicationstatus ? "Generated" : "N/A"}</td>
+                                        <td>{item.applicationstatus ? "Approved" : "N/A"}</td>
                                     </tr>
                                 ))}
                             </tbody>
