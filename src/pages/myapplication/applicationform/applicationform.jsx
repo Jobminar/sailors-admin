@@ -4,25 +4,67 @@ import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Myapplication from '../myapplication';
-
+import moment from 'moment';
 const ApplicationForm = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({});
+  const [photo, setPhoto] = useState(null);
+  const [class10photo, setclass10Photo] = useState(null);
+  const [aadharphoto, setaadharPhoto] = useState(null);
+  const [error, setError] = useState(null);
   const params = useParams()
-  const Getuserdata = async()=>{
-    try{
-      const values = await axios.get('http://127.0.0.1:7000/candidate');
+  console.log(formData.passport);
+
+  const Getuserdata = async () => {
+    try {
+      const values = await axios.get('http://127.0.0.1:7001/candidates');
       const userdata = values.data
-      const finduser = userdata.find((user)=> user.applicationId  === parseInt(params.id));
-      setFormData(finduser) 
-    }catch(error){
+      const finduser = userdata.find((user) => user.applicationId === parseInt(params.id));
+      setFormData(finduser)
+    } catch (error) {
       console.log(error)
     }
   }
-  useEffect(()=>{
-    Getuserdata()
-  },[])
+  const fetchFileById = async (id, setFileState) => {
+    if (!id) {
+      setError('File ID is missing.');
+      return;
+    }
 
+    try {
+      const response = await axios.get(`http://localhost:7001/fileById/${id}`, {
+        responseType: 'blob',
+      });
+      const fileURL = URL.createObjectURL(new Blob([response.data]));
+      setFileState(fileURL);
+      setError(null); // Clear any previous error
+    } catch (err) {
+      console.error('Error fetching file:', err);
+      setError('Failed to fetch the file.');
+    }
+  };
+
+  useEffect(() => {
+    Getuserdata()
+  }, [])
+  useEffect(() => {
+    if (formData.passport || formData.class10th || formData.aadhar) {
+      fetchFileById(formData.passport, setPhoto);
+      fetchFileById(formData.class10th, setclass10Photo);
+      fetchFileById(formData.aadhar, setaadharPhoto);
+    }
+  }, [formData]);
+
+  const handleapprovedClicked = async (id) => {
+    try {
+      const response = await axios.patch(`http://localhost:7001/candidate/${id}`, {
+        applicationStatus: true, 
+      });
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <>
       <Link className='bi-arrow-left btn btn-light ms-3 mt-2' to='/dashboardadmin/myapplication'></Link>
@@ -54,9 +96,12 @@ const ApplicationForm = () => {
                   name="applyFor"
                   value={formData.applyFor}
                   variant="outlined"
+                  label="Apply For" 
+                  InputLabelProps={{
+                    shrink: true, 
+                  }}
                 />
               </Grid>
-
               {/* Candidate name */}
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -65,7 +110,12 @@ const ApplicationForm = () => {
                   name="candidateName"
                   value={formData.candidateName}
                   variant="outlined"
+                  label="Candidate Name" 
+                  InputLabelProps={{
+                    shrink: true, 
+                  }}
                 />
+
               </Grid>
 
               {/* Father name */}
@@ -76,6 +126,10 @@ const ApplicationForm = () => {
                   name="fatherName"
                   value={formData.fatherName}
                   variant="outlined"
+                  label="Father Name" 
+                  InputLabelProps={{
+                    shrink: true, 
+                  }}
                 />
               </Grid>
 
@@ -86,8 +140,12 @@ const ApplicationForm = () => {
                   fullWidth
                   name="dob"
                   placeholder="DD-MM-YY"
-                  value={formData.dob}
+                  value={formData.dob?moment(formData.dob).format('DD-MM-YYYY'):""}
                   variant="outlined"
+                  label="Date-of-Birth" 
+                  InputLabelProps={{
+                    shrink: true, 
+                  }}
                 />
               </Grid>
 
@@ -95,10 +153,13 @@ const ApplicationForm = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  name="dob"
-                  placeholder="DD-MM-YY"
+                  name="gender"
                   value={formData.gender}
                   variant="outlined"
+                  label="Gender" 
+                  InputLabelProps={{
+                    shrink: true, 
+                  }}
                 />
               </Grid>
 
@@ -110,6 +171,10 @@ const ApplicationForm = () => {
                   name="mobileNumber"
                   value={formData.mobileNumber}
                   variant="outlined"
+                  label="Mobile Number" 
+                  InputLabelProps={{
+                    shrink: true, 
+                  }}
                 />
               </Grid>
 
@@ -121,6 +186,10 @@ const ApplicationForm = () => {
                   name="email"
                   value={formData.email}
                   variant="outlined"
+                  label="Email" 
+                  InputLabelProps={{
+                    shrink: true, 
+                  }}
                 />
               </Grid>
             </Grid>
@@ -142,6 +211,10 @@ const ApplicationForm = () => {
                   name="houseNo"
                   value={formData.houseNo}
                   variant="outlined"
+                  label="House No" 
+                  InputLabelProps={{
+                    shrink: true, 
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -151,6 +224,10 @@ const ApplicationForm = () => {
                   name="postOffice"
                   value={formData.postOffice}
                   variant="outlined"
+                  label="Post Office" 
+                  InputLabelProps={{
+                    shrink: true, 
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -160,6 +237,10 @@ const ApplicationForm = () => {
                   name="policeStation"
                   value={formData.policeStation}
                   variant="outlined"
+                  label="Police Station" 
+                  InputLabelProps={{
+                    shrink: true, 
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -169,6 +250,10 @@ const ApplicationForm = () => {
                   name="district"
                   value={formData.district}
                   variant="outlined"
+                  label="District" 
+                  InputLabelProps={{
+                    shrink: true, 
+                  }}
                 />
               </Grid>
 
@@ -179,6 +264,10 @@ const ApplicationForm = () => {
                   name="city"
                   value={formData.city}
                   variant="outlined"
+                  label="City" 
+                  InputLabelProps={{
+                    shrink: true, 
+                  }}
                 />
               </Grid>
 
@@ -189,6 +278,10 @@ const ApplicationForm = () => {
                   name="state"
                   value={formData.state}
                   variant="outlined"
+                  label="State" 
+                  InputLabelProps={{
+                    shrink: true, 
+                  }}
                 />
               </Grid>
 
@@ -199,6 +292,10 @@ const ApplicationForm = () => {
                   name="postalCode"
                   value={formData.postalCode}
                   variant="outlined"
+                  label="Postal Code" 
+                  InputLabelProps={{
+                    shrink: true, 
+                  }}
                 />
               </Grid>
             </Grid>
@@ -241,6 +338,8 @@ const ApplicationForm = () => {
                   name="tenthschool"
                   value={formData.tenthschool}
                   variant="outlined"
+                 
+                  
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -250,6 +349,7 @@ const ApplicationForm = () => {
                   name="tenthyear"
                   value={formData.tenthyear}
                   variant="outlined"
+                 
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -259,6 +359,7 @@ const ApplicationForm = () => {
                   name="tenthpercentage"
                   value={formData.tenthpercentage}
                   variant="outlined"
+                
                 />
               </Grid>
 
@@ -273,6 +374,7 @@ const ApplicationForm = () => {
                   name="twelfthschool"
                   value={formData.twelfthschool}
                   variant="outlined"
+                 
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -291,6 +393,7 @@ const ApplicationForm = () => {
                   name="twelfthpercentage"
                   value={formData.twelfthpercentage}
                   variant="outlined"
+                  
                 />
               </Grid>
 
@@ -305,6 +408,7 @@ const ApplicationForm = () => {
                   name="degreeschool"
                   value={formData.degreeschool}
                   variant="outlined"
+                  
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -314,6 +418,7 @@ const ApplicationForm = () => {
                   name="degreeyear"
                   value={formData.degreeyear}
                   variant="outlined"
+                  
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -323,6 +428,7 @@ const ApplicationForm = () => {
                   name="degreepercentage"
                   value={formData.degreepercentage}
                   variant="outlined"
+                  
                 />
               </Grid>
             </Grid>
@@ -336,11 +442,24 @@ const ApplicationForm = () => {
               UPLOAD PICTURE (*Select image of less than 2mb)
             </Typography>
             <Grid>
-              <Grid>Upload your passport size picture (.jpg)</Grid>
+              <Grid className=' col-6 d-flex justify-content-between align-items-center my-4'>
+                <div >
+                  Upload your passport size picture (.jpg)
+                </div>
+                <img className=' rounded' src={photo} alt="passport photo" height="90" />
+              </Grid>
               <hr></hr>
-              <Grid>Upload your 10th class certificate</Grid>
+              <Grid className=' col-6 d-flex justify-content-between align-items-center my-4'>
+                <div >
+                  Upload your 10th class certificate(.jpg)
+                </div>
+                <img className=' rounded' src={class10photo} alt="10th Class Certificate" width="90" />
+              </Grid>
               <hr></hr>
-              <Grid>Upload your 12th class certificate</Grid>
+              <Grid className=' col-6 d-flex justify-content-between align-items-center my-4'>
+                <div>Upload your aadhar Card (.jpg)</div>
+                <img className=' rounded' src={aadharphoto} alt="aadhar card" width="90" />
+              </Grid>
             </Grid>
 
 
@@ -348,14 +467,14 @@ const ApplicationForm = () => {
               <button
                 style={{ backgroundColor: "#0486AA" }}
                 className="btn  text-light px-5 py-2 mt-4"
-                // onClick={handlerejectedClicked}
+              // onClick={handlerejectedClicked}
               >
                 REJECTED
               </button>
               <button
                 style={{ backgroundColor: "#0486AA" }}
                 className='btn text-light px-5 py-2 mt-4 ms-2'
-                // onClick={handleapprovedClicked}
+              onClick={()=>handleapprovedClicked(formData.applicationId)}
               >
                 APPROVED
               </button>

@@ -41,7 +41,7 @@ const Addsubadmin = () => {
         
     
         try {
-            const response = await fetch('http://localhost:2024/subadmincreate', {
+            const response = await fetch('http://localhost:7001/subadmincreate', {
                 method: 'POST',
                 body: formData
             });
