@@ -12,7 +12,7 @@ import { Selectionletterhead } from "./pages/letters/selectionletterhead/selecti
 import Enquires from "./pages/Enquires/enquires";
 import { Applicantfinance } from "./pages/Financials/financials";
 import Admitcarddashboard from "./pages/admitcard/admitcarddashboard";
-import { Confirmationdashboard } from "./pages/confirmation/confirmationdashboard";
+import Confirmationdashboard from "./pages/confirmation/confirmationdashboard";
 import { Confirmationprofile } from "./pages/confirmation/confirmationprofile";
 import { Confirmationletterhead } from "./pages/confirmation/confirmationletter";
 import { Admitcardletterhead } from "./pages/admitcard/admitcardletter";
@@ -20,6 +20,7 @@ import FileDisplay from "./pages/subabmin/addinsubadmin3/addsubadminn3";
 import ApplicationForm from "./pages/myapplication/applicationform/applicationform";
 import Subadmin from "./pages/subadmin/subadmin";
 import Addsubadmin from "./pages/subabmin/addsubadmin/addsubadmin";
+import Interoutcome from "./pages/interviewfeadback/interviewoutcome";
 
 const Routing = () => {
   return (
@@ -27,7 +28,6 @@ const Routing = () => {
       <BrowserRouter>
         <Headeradmin />
         <Routes>
-        applicantprofileapplication
           <Route path="/" element={<Dashboardadmin />} />
           <Route path="/dashboardadmin" element={<Dashboardadmin />}>
             <Route path="myapplication" element={<Myapplication />} />
@@ -35,25 +35,26 @@ const Routing = () => {
             <Route path="admitcardletter/:applicationNo" element={<Admitcardletterhead />} />
             <Route path="admitcarddashboard" element={<Admitcarddashboard />} />
             <Route path="interviewSchedule" element={<InterviewSchedule />} />
-            <Route path="applicantprofileapplication/:id" element={<Applicantprofileapplication />} />
-            <Route path="applicationstatus/:id" element={<ApplicationForm  /> } />  
+            <Route path="applicationstatus/:id" element={<ApplicationForm />} />
             <Route path="applicantprofile" element={<Applicantprofile />} />
-            <Route path="applicantprofile/:applicationNo" element={<Applicantprofile />} />
-            <Route path="applicantfinance/:id" element={<Applicantfinance />} />
+            <Route path="applicantprofile/:applicationNo" element={<Applicantprofile />} >
+              <Route path="applicantprofileapplication" element={<Applicantprofileapplication />} />
+              <Route path="applicantfinance" element={<Applicantfinance />} />
+            </Route>
             <Route path="selectionletter" element={<Selectionpage />} />
             <Route path="selectionletter/:id" element={<SelectionProfile />} />
             <Route path="selectionletter/:id/letter" element={<Selectionletterhead />} />
             <Route path="confirmationdashboard" element={<Confirmationdashboard />} />
             <Route path="confirmationprofile/:applicationNo" element={<Confirmationprofile />} />
             <Route path="confirmationletter/:applicationNo" element={<Confirmationletterhead />} />
-            <Route path="enquires" element={<Enquires />} /> 
+            <Route path="enquires" element={<Enquires />} />
             <Route path="subadmin" element={<Subadmin />} />
-            <Route path="subadmin/addadmin" element={<Addsubadmin/>} />
-
+            <Route path="subadmin/addadmin" element={<Addsubadmin />} />
+            <Route path="interviewSchedule/:id" element={<Interoutcome />} />
           </Route>
           <Route path="fileDisplay" element={<FileDisplay />} />
         </Routes>
-        
+
       </BrowserRouter>
     </>
   );

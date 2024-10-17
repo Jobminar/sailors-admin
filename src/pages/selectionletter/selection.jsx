@@ -1,28 +1,18 @@
 import filterimg from '../../assets/Images/filter.png'
 import { useState } from "react"
-import { useEffect } from 'react';
+import {useCookies} from 'react-cookie'
+import useFetchData from '../../Hook/Getalluser/getalluser'
 import './selection.css'
-import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 const Selectionpage = () => {
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedStatus, setSelectedStatus] = useState('');
     const [selectedAdmitCard, setSelectedAdmitCard] = useState('');
     const [selectNumber, setSelectNumber] = useState('');
-    const [realdata,setRealdata] = useState([])
     const navigate  = useNavigate('')
-    const params = useParams({
-        applicationId:''
-    })
+    const [adminCookie,removeadminCookie] = useCookies(["user"]);
 
-    const featchdata = async() =>{
-        try{
-            const users = await axios.get('http://127.0.0.1:7000/candidate')
-            setRealdata(users.data)
-        }catch(error){
-            console.error(error,'catch error');
-        }
-    }
+    const { data: realdata, error, loading } = useFetchData('http://127.0.0.1:7000/candidate');
 
     const filteredData = realdata.filter((item) => {
         if (selectedDate && item.interviewDate !== selectedDate) {
@@ -60,9 +50,6 @@ const Selectionpage = () => {
         navigate(`/dashboardadmin/selectionletter/${items.applicationId}`)
     }   
 
-    useEffect(()=>{
-        featchdata()
-    },[])
     return (
         <div>
            
@@ -120,16 +107,18 @@ const Selectionpage = () => {
                                     <th>Applicant Name</th>
                                     <th>Application No.</th>
                                     <th>Application Status</th>
+                                    <th>Officer Name</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {filteredData.map((item, index) => (
                                     <tr key={index}>
                                         <td>{index+1}</td>
-                                        <td onClick={(e)=>handileclick(e,item)}>{item.candidateName}</td>
+                                        <td onClick={(e)=>handileclick(e,item)} style={{cursor:'pointer'}}>{item.candidateName}</td>
                                         <td>{item.applicationId}</td>
                                         {/* <td>{item.status}</td> */}
                                         <td>Approved</td>
+                                        <td>{adminCookie.user}</td>
                                     </tr>
                                 ))}
                             </tbody>

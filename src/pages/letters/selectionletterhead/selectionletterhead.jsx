@@ -1,11 +1,28 @@
+import axios from "axios";
 import leterheadheader from "../../../assets/Images/leterheadheader.png";
 import "./selectionletterhead.css";
-import {useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import { useReactToPrint } from "react-to-print";
+import { useParams } from "react-router-dom";
 
 export function Selectionletterhead(param) {
   const contentRef = useRef(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
+  const [user,setusers] = useState({})
+  const params = useParams()
+  const fetchdata = async () => {
+    try {
+        const usedata = await axios.get('http://127.0.0.1:7000/candidate')
+        const users = usedata.data;
+        const filteredUsers = users.find((user) => user.applicationId === parseInt(params.id));
+        setusers(filteredUsers)
+    } catch (error) {
+        console.error(error, 'catch error');
+    }
+}
+  useEffect(()=>{
+    fetchdata()
+  },[])
   return (
     <div className="d-flex justify-content-center">
       <div className="modalfade" id="selectionlettermodal">
@@ -23,10 +40,10 @@ export function Selectionletterhead(param) {
             <div>
               <h5 className="text-center leterheadtitle">SELECTION LETTER</h5>
               <p>
-                Ref no: <strong>{param.refno}</strong>
+                Ref no: <strong>{user.applicationId}</strong>
               </p>
               <p>
-                Name: <strong>{param.name}</strong>
+                Name: <strong>{user.candidateName}</strong>
               </p>
               <p>
                 Welcome to <strong>SAILORSWAVE-SHIP MANAGEMENT PVT LTD</strong>{" "}

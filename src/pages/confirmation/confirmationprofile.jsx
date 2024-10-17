@@ -8,7 +8,7 @@ export function Confirmationprofile() {
     const [applicantdetails, setapplicatdetails] = useState({ name: "Nikhil Raj", DOB: "29/08/2001", Gmail: "Nikhilraj2908@gmail.com", Location: "Vidisha" })
     function btncnfrmletter(item)
     {
-            navigate(`/dashboardadmin/confirmationletter/${item}`) 
+        navigate(`/dashboardadmin/confirmationletter/${item}`) 
     }
     return (
         <>

@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 const Profile = ({ applicantdetail }) => {
     return (
         <>
-            <div className="row text-secondary " style={{ height: "30vh", backgroundColor: "white", boxShadow: "1px 1px 5px 4px #edf1f0  " }}>
+            <div className="row text-secondary rounded-3 " style={{ height: "30vh", backgroundColor: "white", boxShadow: "1px 1px 5px 4px #edf1f0  " }}>
                 <div className='col-3 d-flex align-items-center'>
                     <img className='border border-1 rounded bg-secondary' src={profile} alt="Profile Pictre" style={{ width: "100%", }}></img>
                 </div>
@@ -26,6 +26,11 @@ const Profile = ({ applicantdetail }) => {
                             <dt className='col-3'>Location:</dt>
 
                             <dd className='col-9'>{applicantdetail.city}</dd>
+                        </div>
+                        <div className='row'>
+                            <dt className='col-3'>Phone Number:</dt>
+
+                            <dd className='col-9'>{applicantdetail.mobileNumber}</dd>
                         </div>
                     </dl>
                 </div>

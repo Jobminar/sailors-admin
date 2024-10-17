@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import filterimg from '../../assets/Images/filter.png';
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import moment from 'moment'
+import { useCookies } from "react-cookie";
 
 const Admitcarddashboard = () => {
     const [selectedDate, setSelectedDate] = useState('');
@@ -11,6 +12,7 @@ const Admitcarddashboard = () => {
     const [selectNumber, setSelectNumber] = useState('');
     const navigate=useNavigate();
     const [userdata,setuserdata] = useState([])
+    const [adminCookie,removeadminCookie] = useCookies(["user"]);
     const featchdata  = async ()=>{
         try{
             const values = await axios.get('http://127.0.0.1:7000/candidate')
@@ -50,6 +52,9 @@ const Admitcarddashboard = () => {
     }
     return (
         <div className="container row pt-3">
+            <div>
+                <Link className='bi-arrow-left btn btn-light m-3 px-3' to='/dashboardadmin/admitcarddashboard'></Link>
+            </div>
             <div className="col-9" style={{ width: "100%" }}>
                 <div className="btn-group mt-2 mb-5">
                     <button className="btn btn-light">
@@ -94,6 +99,9 @@ const Admitcarddashboard = () => {
                                 <th>Application Name</th>
                                 <th>Application No.</th>
                                 <th>Application Status</th>
+                                <th>Officer Name</th>
+                                <th>Admit card</th>
+                                <th>Officer Name</th>
 
                             </tr>
                         </thead>
@@ -104,6 +112,9 @@ const Admitcarddashboard = () => {
                                     <td onClick={()=>{btnappnoclicked(item.applicationId)}} style={{cursor:"pointer"}}>{item.candidateName}</td>
                                     <td>{item.applicationId}</td>
                                     <td>{(item.applicationstatus)?'Approved':'Reject'}</td>
+                                    <td>{adminCookie.user}</td>
+                                    <td>Admit Card</td>
+                                    <td>{adminCookie.user}</td>
                                 </tr>
                             ))}
                         </tbody>

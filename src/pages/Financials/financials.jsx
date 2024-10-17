@@ -34,17 +34,8 @@ export function Applicantfinance() {
     },[])
     return (
         <div>
-            <div className="container row mt-2 p-3" style={{ height: "90vh", overflow: "scroll", }}>
+            <div className="container row">
                 <div className="col-9" >
-                    <div className='fw-bold fs-5 mb-3'>About</div>
-                    <Profile applicantdetail={applicantdetails} />
-                    <button className="ms-2 me-4 mt-5 mb-5 btn py-3 " style={{ width: "20%", backgroundColor: "#c9e4ed" }}>Finance</button>
-                    <button className="mx-4 mt-5 mb-5 btn py-3 " style={{ width: "20%", backgroundColor: "#c9e4ed" }}>My Applications</button>
-                    <button className="mx-4 mt-5 mb-5 btn py-3 " style={{ width: "20%", backgroundColor: "#c9e4ed" }}>Documents from user</button>
-                    <div>
-                        <button className={`btn ${btnclicked ? "btn btn-secondary" : btnstyle}  ms-2 px-4 me-5 py-3`} style={{ width: "32%" }} onClick={btnreordatransaction}>Record A Transaction</button>
-                        <button className={`btn ${btnclicked ? btnstyle : "btn btn-secondary"}  px-4 py-3`} style={{ width: "32%" }} onClick={btnviewtransaction}>View Transaction</button>
-                    </div>
                     {btnclicked ?
                         <form>
                             <div >
@@ -76,7 +67,7 @@ export function Applicantfinance() {
                             </div>
                         </form>
                         :
-                        <table className="mt-5 table table-bordered">
+                        <table className="table table-bordered">
                             <thead className="thead-light">
                                 <tr>
                                     <th scope="col">S.no</th>

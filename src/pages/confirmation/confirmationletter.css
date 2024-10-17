@@ -9,7 +9,7 @@
 
   .modal-body-leterhead::before {
     /* content: ""; */
-    background-image: url("");
+    /* background-image: url(""); */
     background-size: cover;
     background-repeat: no-repeat;
     opacity: 0.2;

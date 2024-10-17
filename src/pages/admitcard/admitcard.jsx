@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import profile from '../../assets/Images/dp-dummy.png';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Profile from '../profile/profile';
 import axios from 'axios';
 import moment from 'moment';
@@ -29,6 +29,9 @@ export function Admitcard() {
   return (
     <>
       <div className='container row'>
+        <div>
+          <Link className='bi-arrow-left btn btn-light m-3 px-3' to='/dashboardadmin/admitcarddashboard'></Link>
+        </div>
         <div >
           <div className='fw-bold fs-5 '>About</div>
           <div className='mt-3 ps-4 d-flex align-items-center ' >
@@ -43,7 +46,7 @@ export function Admitcard() {
               </div>
               <div className='d-flex my-4  bg-light '>
                 <dt className='mx-4 col-5'>Application status</dt>
-                <dd>{admitcarddetails.applicationstatus?'Approved':'Not Approved'}</dd>
+                <dd>{admitcarddetails.applicationstatus ? 'Approved' : 'Not Approved'}</dd>
               </div>
               <div className='d-flex my-4   bg-light '>
                 <dt className='mx-4 col-5'>Date of applied</dt>
@@ -55,7 +58,7 @@ export function Admitcard() {
               </div>
               <div className='d-flex my-4  bg-light '>
                 <dt className='mx-4 col-5'>Time of Interview</dt>
-                <dd className='d-flex align-items-center'><input className=' form-control' style={{ width: "72%" }}></input><span className='bi bi-watch' style={{ marginLeft: "-10%" }}></span></dd>
+                <dd className='d-flex align-items-center'><input type='time' className='form-control'></input></dd>
               </div>
             </dl>
           </div>
