@@ -9,7 +9,7 @@ const FileDisplay = () => {
   // Function to handle showing the file using photoId
   const handleShowFile = async () => {
     try {
-      const response = await axios.get(`http://localhost:2024/fileById/670ccd1e7e0054872024fa5e`, {
+      const response = await axios.get(`http://localhost:7001/fileById/671206f22f48b34c25017500`, {
         responseType: 'blob', // Get the file as a binary large object (blob)
       });
 

@@ -4,11 +4,13 @@ import profile from '../../assets/Images/dp-dummy.png'
 import { Link, Outlet, useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import Profile from '../profile/profile'
+import Documentuser from '../../components/documentsuser/documentuser'
 
 
 export function Applicantprofile() {
     const navigate = useNavigate()
     const [userdata, setuserdata] = useState({})
+    const [documentuser, setdocumentuser] = useState(false);
     const params = useParams()
     const fetchdata = async () => {
         try {
@@ -21,10 +23,23 @@ export function Applicantprofile() {
         }
     }
     const applicantprofileapplication = () => {
+        setdocumentuser(false)
+
         navigate(`/dashboardadmin/applicantprofile/${userdata.applicationId}/applicantprofileapplication`)
     }
     const applicantfinanceclick = () => {
+        setdocumentuser(false)
+
         navigate(`/dashboardadmin/applicantprofile/${userdata.applicationId}/applicantfinance`)
+    }
+    const userdocumentclicked = () => {
+        setdocumentuser(true)
+    }
+    const applicantcommentlick=()=>{
+        setdocumentuser(false)
+
+        navigate(`/dashboardadmin/applicantprofile/${userdata.applicationId}/applicantcomment`)
+  
     }
     useEffect(() => {
         fetchdata()
@@ -32,9 +47,9 @@ export function Applicantprofile() {
     return (
         <>
             <div className='container row'>
-            <div>
-            <Link className='bi-arrow-left btn btn-light my-3 px-3' to='/dashboardadmin/myapplication'></Link>
-            </div>
+                <div>
+                    <Link className='bi-arrow-left btn btn-light my-3 px-3' to='/dashboardadmin/myapplication'></Link>
+                </div>
                 <div className='col-9 ps-4'>
                     <div className='fw-bold fs-5 mb-3 '>About</div>
                     <Profile applicantdetail={userdata} />
@@ -49,20 +64,32 @@ export function Applicantprofile() {
                             </button >
                         </div>
                         <div >
-                            <button style={{ width: "225px" }} className='my-5 btn btn-light applicantprofile fw-bold text-secondary  p-3'>
+
+                            <button
+                                style={{ width: "225px" }}
+                                className='my-5 btn btn-light applicantprofile fw-bold text-secondary  p-3'
+                                onClick={() => userdocumentclicked(userdata)}>
                                 Documents from user
                             </button>
                         </div>
                         <div >
-                            <button style={{ width: "225px" }} className='my-5 btn btn-light applicantprofile fw-bold text-secondary  p-3'>
+                            <button style={{ width: "225px" }} className='my-5 btn btn-light applicantprofile fw-bold text-secondary  p-3' onClick={applicantcommentlick}>
                                 comments
                             </button>
                         </div>
                     </div>
                 </div>
                 <hr />
+                {
+                    documentuser ?
+                        <div className='w-75'>
+                            <Documentuser userdetails={userdata} />
+                        </div> :
+                        <div>
+                            <Outlet />
+                        </div>
+                }
                 <div>
-                    <Outlet/>
                 </div>
             </div>
 

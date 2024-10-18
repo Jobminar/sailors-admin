@@ -22,6 +22,8 @@ import Subadmin from "./pages/subadmin/subadmin";
 import Addsubadmin from "./pages/subabmin/addsubadmin/addsubadmin";
 import Interoutcome from "./pages/interviewfeadback/interviewoutcome";
 import Adminprofile from "./pages/subadmin/adminprofile/adminprofile";
+import Documentuser from "./components/documentsuser/documentuser";
+import { Usercomments } from "./pages/usercomment/usercomments";
 
 const Routing = () => {
   return (
@@ -42,6 +44,7 @@ const Routing = () => {
             <Route path="applicantprofile/:applicationNo" element={<Applicantprofile />} >
               <Route path="applicantprofileapplication" element={<Applicantprofileapplication />} />
               <Route path="applicantfinance" element={<Applicantfinance />} />
+              <Route path="applicantcomment" element={<Usercomments/>} />
             </Route>
             <Route path="selectionletter" element={<Selectionpage />} />
             <Route path="selectionletter/:id" element={<SelectionProfile />} />
@@ -56,6 +59,7 @@ const Routing = () => {
             <Route path="subadmin"  element={<Adminprofile />} />
           </Route>
           <Route path="fileDisplay" element={<FileDisplay />} />
+          <Route path="/documentuser" element={<Documentuser/>} />
         </Routes>
 
       </BrowserRouter>

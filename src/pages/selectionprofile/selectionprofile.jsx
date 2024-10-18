@@ -13,7 +13,7 @@ const SelectionProfile = () => {
     // const today = moment().format('YYYY-MM-DD');
     const fetchdata = async () => {
         try {
-            const usedata = await axios.get('http://127.0.0.1:7000/candidate')
+            const usedata = await axios.get('http://127.0.0.1:7001/candidates')
             const users = usedata.data;
             const filteredUsers = users.find((user) => user.applicationId === parseInt(params.id));
             setApplicantDetails(filteredUsers)
