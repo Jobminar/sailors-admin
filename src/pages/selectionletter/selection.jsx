@@ -66,7 +66,7 @@ const Selectionpage = () => {
            
             <div className="container row pt-3">
             <div>
-                <Link className='bi-arrow-left btn btn-light m-3 px-3' to='/dashboardadmin/myapplication'></Link>
+                <Link className='bi-arrow-left btn btn-light m-3 px-3' to='/dashboardadmin'></Link>
             </div>
                 <div className="col-9" style={{width:"100%"}}>
                     {/* Filter */}

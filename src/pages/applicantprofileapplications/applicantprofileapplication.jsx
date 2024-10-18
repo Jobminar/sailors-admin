@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
-import profile from '../../assets/Images/dp-dummy.png'
+
 import { useEffect, useState } from "react";
-import Profile from '../profile/profile';
+
 import axios from 'axios';
 export function Applicantprofileapplication() {
     const [applicantdetails, setapplicatdetails] = useState({})
@@ -9,7 +9,7 @@ export function Applicantprofileapplication() {
     const [data, setdata] = useState([{}])
     const fetchdata = async () => {
         try {
-            const usedata = await axios.get('http://127.0.0.1:7000/candidate')
+            const usedata = await axios.get('http://127.0.0.1:7001/candidates')
             const users = usedata.data;
             const finduser = users.find((user) => user.applicationId === parseInt(param.applicationNo));
             const filteruser = users.filter((user) => user.applicationId === parseInt(param.applicationNo));
