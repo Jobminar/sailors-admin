@@ -3,9 +3,6 @@ import filterimg from '../../assets/Images/filter.png'
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie";
 import axios from 'axios'
-import moment from 'moment'
-import { Applicantprofile } from '../applicantprofile/applicantprofile';
-import { Cookie } from '@mui/icons-material';
 import './myapplication.css'
 
 const Myapplication = () => {

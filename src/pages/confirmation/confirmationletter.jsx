@@ -2,11 +2,13 @@ import { useParams } from "react-router-dom";
 import leterheadheader from "../../assets/Images/letterheadheader.png";
 import "./confirmationletter.css";
 import {useRef} from "react";
+import useUserById from '../../Hook/finduser/findalluser'
 import { useReactToPrint } from "react-to-print";
 
 export function Confirmationletterhead() {
-    const params = useParams();
-    const applicationNo = params.applicationNo;
+    const param = useParams();
+    const {user, loading, error} =  useUserById('http://127.0.0.1:7000/candidate',param.applicationNo);
+
     const contentRef = useRef(null);
     const reactToPrintFn = useReactToPrint({ contentRef });
     return (
@@ -35,13 +37,13 @@ export function Confirmationletterhead() {
                                 </div>
                             </p>
                             <p>
-                                <strong>REF NO: {applicationNo}</strong>
+                                <strong>REF NO:{user.applicationId}</strong>
                             </p>
                             <p>
-                                <strong>  NAME: MR. </strong>
+                                <strong>  NAME: MR.{user.candidateName} </strong>
                             </p>
                             <p>
-                                <strong>   S/O: Mr. </strong>
+                                <strong>   S/O: Mr.{user.fatherName} </strong>
                             </p>
                             <p>
                                 <strong>Congratulations,</strong>

@@ -55,7 +55,7 @@ export function Applicantprofile() {
                         </div>
                         <div >
                             <button style={{ width: "225px" }} className='my-5 btn btn-light applicantprofile fw-bold text-secondary  p-3'>
-                                Components
+                                comments
                             </button>
                         </div>
                     </div>
