@@ -1,11 +1,13 @@
 import React from "react"
+import useFetchData from '../../../Hook/Getalluser/getalluser'
 import { useNavigate } from "react-router-dom"
 
 const Adminprofile = () => {
-
+    const { data, error, isLoading } = useFetchData('http://localhost:7001/subadmin')
     const navigate = useNavigate('')
-    const Handilenavigate = () =>{
-        navigate('/dashboardadmin/adminprofile')
+    console.log(data)
+    const Handilenavigate = (num) => {
+        navigate(`/dashboardadmin/adminprofile/${num}`)
     }
     return (
         <>
@@ -24,16 +26,19 @@ const Adminprofile = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td onClick={Handilenavigate}>Vishnu Patel</td>
-                            <td>patel@gmail.com</td>
-                            <td>153694554</td>
-                            <td>xxxx</td>
-                            <td>xxxx</td>
-                            <td className="text-center"><span className="bi-trash btn btn-danger"></span></td>
-                            <td className="text-center"><span className="bi bi-pencil-square btn btn-warning "></span></td>
-                        </tr>
+                        {
+                            data.map((admin, i) =>
+                                <tr key={i}>
+                                    <td>{i+1}</td>
+                                    <td onClick={()=>Handilenavigate(admin.number)}>{admin.name}</td>
+                                    <td>{admin.email}</td>
+                                    <td>{admin.password}</td>
+                                    <td>{admin.number}</td>
+                                    <td>xxxx</td>
+                                    <td className="text-center"><span className="bi-trash btn btn-danger"></span></td>
+                                    <td className="text-center"><span className="bi bi-pencil-square btn btn-warning "></span></td>
+                                </tr>)
+                        }
                     </tbody>
 
                 </table>

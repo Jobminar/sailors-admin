@@ -10,6 +10,13 @@ const Addsubadmin = () => {
         email: '',
         password: ''
     });
+    const [checklist, setChecklist] = useState({
+        MyApplication: false,
+        AdmitCard: false,
+        InterviewFeedback: false,
+        SelectionLetter: false,
+        ConfirmationLetter: false
+    });
 
     const handleClick = () => {
         fileInputRef.current.click();
@@ -24,6 +31,11 @@ const Addsubadmin = () => {
         setSubAdminDetails({ ...subadmindetails, [name]: value });
     };
 
+    const handleCheckboxChange = (e) => {
+        const { name, checked } = e.target;
+        setChecklist({ ...checklist, [name]: checked });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!subadmindetails.name || !subadmindetails.number || !subadmindetails.email || !subadmindetails.password || !files) {
@@ -31,14 +43,17 @@ const Addsubadmin = () => {
             return;
         }
 
-        // Prepare form data to send to the server
         const formData = new FormData();
         formData.append('name', subadmindetails.name);
         formData.append('number', subadmindetails.number);
         formData.append('email', subadmindetails.email);
         formData.append('password', subadmindetails.password);
-        formData.append('file', files); // Append the file
+        formData.append('file', files);
 
+        // Append checklist values
+        for (const [key, value] of Object.entries(checklist)) {
+            formData.append(key, value);
+        }
 
         try {
             const response = await fetch('http://localhost:7001/subadmincreate', {
@@ -56,6 +71,13 @@ const Addsubadmin = () => {
                     email: '',
                     password: ''
                 });
+                setChecklist({
+                    MyApplication: false,
+                    AdmitCard: false,
+                    InterviewFeedback: false,
+                    SelectionLetter: false,
+                    ConfirmationLetter: false
+                });
                 setFile(null);
                 fileInputRef.current.value = '';
             } else {
@@ -66,7 +88,6 @@ const Addsubadmin = () => {
             alert('There was a problem submitting the form.');
         }
     };
-
 
     return (
         <div className="p-5 mx-5">
@@ -121,22 +142,85 @@ const Addsubadmin = () => {
                     />
                 </dd>
                 <dt>Upload photo</dt>
-                <dd
-                    className="img-box fs-6 d-flex align-items-center justify-content-center"
-                    style={{ cursor: "pointer", backgroundColor: "#f0f0f0" }}
-                    onClick={handleClick}
-                >
-                    {files ? (
-                        <img
-                            src={files && URL.createObjectURL(files)}
-                            alt={files.name}
-                            style={{ width: "100%", height: "100%", borderRadius: " 10px " }}
-                        />
-                    ) : (
-                        "upload photo"
-                    )}
-                </dd>
-                <div className='d-flex'>
+                <div className='row'>
+                    <div className='col-6'>
+                        <dd
+                            className="img-box fs-6 d-flex align-items-center justify-content-center"
+                            style={{
+                                cursor: "pointer", backgroundColor: "#f0f0f0", width: '30%'
+                            }}
+                            onClick={handleClick}
+                        >
+                            {files ? (
+                                <img
+                                    src={files && URL.createObjectURL(files)}
+                                    alt={files.name}
+                                    style={{ width: "100%", height: "100%", borderRadius: " 10px " }}
+                                />
+                            ) : (
+                                "upload photo"
+                            )}
+                        </dd>
+                    </div>
+                    <div className='col-6'>
+                        <dd>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="MyApplication"
+                                    checked={checklist.MyApplication}
+                                    onChange={handleCheckboxChange}
+                                />
+                                My Application
+                            </label>
+                        </dd>
+                        <dd>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="AdmitCard"
+                                    checked={checklist.AdmitCard}
+                                    onChange={handleCheckboxChange}
+                                />
+                                Admit Card
+                            </label>
+                        </dd>
+                        <dd>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="InterviewFeedback"
+                                    checked={checklist.InterviewFeedback}
+                                    onChange={handleCheckboxChange}
+                                />
+                                Interview Feedback
+                            </label>
+                        </dd>
+                        <dd>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="SelectionLetter"
+                                    checked={checklist.SelectionLetter}
+                                    onChange={handleCheckboxChange}
+                                />
+                                Selection Letter
+                            </label>
+                        </dd>
+                        <dd>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="ConfirmationLetter"
+                                    checked={checklist.ConfirmationLetter}
+                                    onChange={handleCheckboxChange}
+                                />
+                                Confirmation Letter
+                            </label>
+                        </dd>
+                    </div>
+                </div>
+                <div>
                     <div>
                         <input
                             type="file"
