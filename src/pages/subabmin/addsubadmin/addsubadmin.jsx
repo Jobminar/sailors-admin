@@ -30,7 +30,7 @@ const Addsubadmin = () => {
             alert('Please fill in all fields including the photo.');
             return;
         }
-    
+
         // Prepare form data to send to the server
         const formData = new FormData();
         formData.append('name', subadmindetails.name);
@@ -38,14 +38,14 @@ const Addsubadmin = () => {
         formData.append('email', subadmindetails.email);
         formData.append('password', subadmindetails.password);
         formData.append('file', files); // Append the file
-        
-    
+
+
         try {
             const response = await fetch('http://localhost:7001/subadmincreate', {
                 method: 'POST',
                 body: formData
             });
-    
+
             const result = await response.json();
             if (response.ok) {
                 alert(result.message);
@@ -66,7 +66,7 @@ const Addsubadmin = () => {
             alert('There was a problem submitting the form.');
         }
     };
-    
+
 
     return (
         <div className="p-5 mx-5">
@@ -130,20 +130,24 @@ const Addsubadmin = () => {
                         <img
                             src={files && URL.createObjectURL(files)}
                             alt={files.name}
-                            style={{ width: "100%",height:"100%", borderRadius:" 10px " }}
+                            style={{ width: "100%", height: "100%", borderRadius: " 10px " }}
                         />
                     ) : (
                         "upload photo"
                     )}
                 </dd>
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleFileChange}
-                    style={{ display: "none" }}
-                    accept=".jpg, .jpeg, .png"
-                    required
-                />
+                <div className='d-flex'>
+                    <div>
+                        <input
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={handleFileChange}
+                            style={{ display: "none" }}
+                            accept=".jpg, .jpeg, .png"
+                            required
+                        />
+                    </div>
+                </div>
                 <div className='text-center'>
                     <button className='btn w-75 text-light mt-5' style={{ backgroundColor: "#021e3d" }}>
                         Submit

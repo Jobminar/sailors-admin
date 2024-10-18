@@ -50,10 +50,10 @@ const Routing = () => {
             <Route path="confirmationprofile/:applicationNo" element={<Confirmationprofile />} />
             <Route path="confirmationletter/:applicationNo" element={<Confirmationletterhead />} />
             <Route path="enquires" element={<Enquires />} />
-            <Route path="subadmin" element={<Subadmin />} />
+            <Route path="adminprofile" element={<Subadmin />} />
             <Route path="subadmin/addadmin" element={<Addsubadmin />} />
             <Route path="interviewSchedule/:id" element={<Interoutcome />} />
-            <Route path="adminprofile"  element={<Adminprofile />} />
+            <Route path="subadmin"  element={<Adminprofile />} />
           </Route>
           <Route path="fileDisplay" element={<FileDisplay />} />
         </Routes>
