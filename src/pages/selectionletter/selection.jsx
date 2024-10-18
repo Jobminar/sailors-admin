@@ -16,7 +16,7 @@ const Selectionpage = () => {
     const[realdata,setRealdata]=useState([])
     const featchdata = async() =>{
         try{
-            const users = await axios.get('http://127.0.0.1:7000/candidate')
+            const users = await axios.get('http://127.0.0.1:7001/candidates')
             setRealdata(users.data)
         }catch(error){
             console.error(error,'catch error');
