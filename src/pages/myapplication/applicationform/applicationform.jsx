@@ -86,7 +86,7 @@ const ApplicationForm = () => {
               variant="h6"
               component="h2"
               className="text-light p-2"
-              sx={{ mb: 2, bgcolor: '#0486AA' }}
+              sx={{ mb: 2,mb:4, bgcolor: '#0486AA' }}
             >
               Personal Details
             </Typography>
@@ -201,7 +201,7 @@ const ApplicationForm = () => {
               variant="h6"
               component="h2"
               className="text-light p-2 mt-5"
-              sx={{ mb: 2, bgcolor: '#0486AA' }}
+              sx={{ mt: 2,mb:4, bgcolor: '#0486AA' }}
             >
               Address of Candidates
             </Typography>
@@ -307,7 +307,7 @@ const ApplicationForm = () => {
               variant="h6"
               component="h2"
               className="text-light p-2 mt-5"
-              sx={{ mb: 2, bgcolor: '#0486AA' }}
+              sx={{ mb: 2,mb:4, bgcolor: '#0486AA' }}
             >
               Educational Qualification
             </Typography>
@@ -439,7 +439,7 @@ const ApplicationForm = () => {
               variant="h6"
               component="h2"
               className="text-light p-2 mt-5"
-              sx={{ mb: 2, bgcolor: '#0486AA' }}
+              sx={{ mb: 2,mb:4, bgcolor: '#0486AA' }}
             >
               UPLOAD PICTURE (*Select image of less than 2mb)
             </Typography>
