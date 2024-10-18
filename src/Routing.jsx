@@ -21,6 +21,7 @@ import ApplicationForm from "./pages/myapplication/applicationform/applicationfo
 import Subadmin from "./pages/subadmin/subadmin";
 import Addsubadmin from "./pages/subabmin/addsubadmin/addsubadmin";
 import Interoutcome from "./pages/interviewfeadback/interviewoutcome";
+import Adminprofile from "./pages/subadmin/adminprofile/adminprofile";
 
 const Routing = () => {
   return (
@@ -52,6 +53,7 @@ const Routing = () => {
             <Route path="subadmin" element={<Subadmin />} />
             <Route path="subadmin/addadmin" element={<Addsubadmin />} />
             <Route path="interviewSchedule/:id" element={<Interoutcome />} />
+            <Route path="adminprofile"  element={<Adminprofile />} />
           </Route>
           <Route path="fileDisplay" element={<FileDisplay />} />
         </Routes>

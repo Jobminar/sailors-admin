@@ -20,7 +20,7 @@ const Myapplication = () => {
 
     const fetchdata = async () => {
         try {
-            const values = await axios.get('http://127.0.0.1:7001/candidates')
+            const values = await axios.get('http://127.0.0.1:7000/candidate')
             setusersdata(values.data)
         } catch (error) {
             console.log(error)
