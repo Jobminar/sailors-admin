@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 
 const Interoutcome = () => {
     const param = useParams()
-    const { user, loading, error } = useUserById('http://127.0.0.1:7000/candidate', param.id)
+    const { user, loading, error } = useUserById('http://127.0.0.1:7001/candidates', param.id)
     console.log(user)
     return (
         <>

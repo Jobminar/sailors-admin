@@ -15,7 +15,7 @@ const Admitcarddashboard = () => {
     const [adminCookie,removeadminCookie] = useCookies(["user"]);
     const featchdata  = async ()=>{
         try{
-            const values = await axios.get('http://127.0.0.1:7000/candidate')
+            const values = await axios.get('http://127.0.0.1:7001/candidates')
             setuserdata(values.data)
 
         }catch(error){
@@ -53,7 +53,7 @@ const Admitcarddashboard = () => {
     return (
         <div className="container row pt-3">
             <div>
-                <Link className='bi-arrow-left btn btn-light m-3 px-3' to='/dashboardadmin/admitcarddashboard'></Link>
+                <Link className='bi-arrow-left btn btn-light my-3 px-3' to='/dashboardadmin/admitcarddashboard'></Link>
             </div>
             <div className="col-9" style={{ width: "100%" }}>
                 <div className="btn-group mt-2 mb-5">
