@@ -7,7 +7,7 @@ import { useReactToPrint } from "react-to-print";
 
 export function Confirmationletterhead() {
     const param = useParams();
-    const {user, loading, error} =  useUserById('http://127.0.0.1:7000/candidate',param.applicationNo);
+    const {user, loading, error} =  useUserById('http://127.0.0.1:7001/candidates',param.applicationNo);
 
     const contentRef = useRef(null);
     const reactToPrintFn = useReactToPrint({ contentRef });

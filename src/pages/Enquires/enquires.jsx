@@ -5,7 +5,7 @@ const Enquires = () => {
     const [candidates, setcandidates] = useState([])
     const fetchdata = async () => {
         try {
-            const users = await axios.get('http://127.0.0.1:7000/candidate')
+            const users = await axios.get('http://127.0.0.1:7001/candidates')
             setcandidates(users.data)
         } catch (error) {
             console.log(error);

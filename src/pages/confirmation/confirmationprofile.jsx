@@ -9,7 +9,7 @@ import Profile from '../profile/profile'
 export function Confirmationprofile() {
     const navigate=useNavigate();
     const param = useParams();
-    const {user:applicantdetails, loading, error} =  useUserById('http://127.0.0.1:7000/candidate',param.applicationNo);
+    const {user:applicantdetails, loading, error} =  useUserById('http://127.0.0.1:7001/candidates',param.applicationNo);
     function btncnfrmletter()
     {
         navigate(`/dashboardadmin/confirmationletter/${param.applicationNo}`) 

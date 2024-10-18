@@ -17,7 +17,7 @@ const ApplicationForm = () => {
 
   const Getuserdata = async () => {
     try {
-      const values = await axios.get('http://127.0.0.1:7000/candidate');
+      const values = await axios.get('http://127.0.0.1:7001/candidates');
       const userdata = values.data
       const finduser = userdata.find((user) => user.applicationId === parseInt(params.id));
       setFormData(finduser)
@@ -33,7 +33,7 @@ const ApplicationForm = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:7000/fileById/${id}`, {
+      const response = await axios.get(`http://localhost:7001/fileById/${id}`, {
         responseType: 'blob',
       });
       const fileURL = URL.createObjectURL(new Blob([response.data]));
