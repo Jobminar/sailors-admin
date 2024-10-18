@@ -13,7 +13,7 @@ export function Admitcardletterhead() {
   const param = useParams()
   const fetchdata = async () => {
     try {
-      const usedata = await axios.get('http://127.0.0.1:7000/candidate')
+      const usedata = await axios.get('http://127.0.0.1:7001/candidates')
       const users = usedata.data;
       const filteredUsers = users.find((user) => user.applicationId == param.applicationNo);
       setUser(filteredUsers)
