@@ -18,7 +18,7 @@ const InterviewSchedule = () => {
 
     const fetchdata = async () => {
         try {
-            const values = await axios.get('http://127.0.0.1:7000/candidate')
+            const values = await axios.get('http://127.0.0.1:7001/candidates')
             setusersdata(values.data)
         } catch (error) {
             console.log(error)

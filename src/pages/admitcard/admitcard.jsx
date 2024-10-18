@@ -14,7 +14,7 @@ export function Admitcard() {
   }
   const fetchdata = async () => {
     try {
-      const usedata = await axios.get('http://127.0.0.1:7000/candidate')
+      const usedata = await axios.get('http://127.0.0.1:7001/candidates')
       const users = usedata.data;
       const filteredUsers = users.find((user) => user.applicationId == param.applicationNo);
       setadmitcarddetails(filteredUsers)
@@ -30,12 +30,14 @@ export function Admitcard() {
     <>
       <div className='container row'>
         <div>
-          <Link className='bi-arrow-left btn btn-light m-3 px-3' to='/dashboardadmin/admitcarddashboard'></Link>
+          <Link className='bi-arrow-left btn btn-light my-3 px-3' to='/dashboardadmin/admitcarddashboard'></Link>
         </div>
         <div >
           <div className='fw-bold fs-5 '>About</div>
-          <div className='mt-3 ps-4 d-flex align-items-center ' >
-            <Profile applicantdetail={admitcarddetails} />
+
+          <div className="ms-2 w-75 mt-3">
+          <Profile  applicantdetail={admitcarddetails} />
+
           </div>
           <div className='text-secondary mt-4'>
             <h5>Details of {admitcarddetails.candidateName}</h5>

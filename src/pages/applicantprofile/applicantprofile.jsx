@@ -33,7 +33,7 @@ export function Applicantprofile() {
         <>
             <div className='container row'>
             <div>
-            <Link className='bi-arrow-left btn btn-light m-3 px-3' to='/dashboardadmin/myapplication'></Link>
+            <Link className='bi-arrow-left btn btn-light my-3 px-3' to='/dashboardadmin/myapplication'></Link>
             </div>
                 <div className='col-9 ps-4'>
                     <div className='fw-bold fs-5 mb-3 '>About</div>
