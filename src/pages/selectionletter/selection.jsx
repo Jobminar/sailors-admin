@@ -1,9 +1,9 @@
 import filterimg from '../../assets/Images/filter.png'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {useCookies} from 'react-cookie'
 import useFetchData from '../../Hook/Getalluser/getalluser'
 import './selection.css'
-import { useNavigate, useParams } from 'react-router-dom';
+// import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 const Selectionpage = () => {
@@ -13,7 +13,7 @@ const Selectionpage = () => {
     const [selectNumber, setSelectNumber] = useState('');
     const navigate  = useNavigate('')
     const [adminCookie,removeadminCookie] = useCookies(["user"]);
-
+    const[realdata,setRealdata]=useState([])
     const featchdata = async() =>{
         try{
             const users = await axios.get('http://127.0.0.1:7001/candidates')
@@ -58,7 +58,9 @@ const Selectionpage = () => {
         console.log(items.applicationId,'hello')
         navigate(`/dashboardadmin/selectionletter/${items.applicationId}`)
     }   
-
+    useEffect(()=>{
+        featchdata()
+    },[])
     return (
         <div>
            

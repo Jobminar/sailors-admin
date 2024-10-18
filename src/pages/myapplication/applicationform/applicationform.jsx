@@ -25,6 +25,7 @@ const ApplicationForm = () => {
       console.log(error)
     }
   }
+
   const fetchFileById = async (id, setFileState) => {
     if (!id) {
       setError('File ID is missing.');
@@ -47,6 +48,7 @@ const ApplicationForm = () => {
   useEffect(() => {
     Getuserdata()
   }, [])
+  
   useEffect(() => {
     if (formData.passport || formData.class10th || formData.aadhar) {
       fetchFileById(formData.passport, setPhoto);

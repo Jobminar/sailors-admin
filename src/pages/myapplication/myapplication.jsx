@@ -6,7 +6,6 @@ import axios from 'axios'
 import moment from 'moment'
 import { Applicantprofile } from '../applicantprofile/applicantprofile';
 import { Cookie } from '@mui/icons-material';
-import { useCookies } from 'react-cookie';
 import './myapplication.css'
 
 const Myapplication = () => {
