@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Profile from '../profile/profile';
 import moment from 'moment'
 
@@ -13,7 +13,7 @@ const SelectionProfile = () => {
     // const today = moment().format('YYYY-MM-DD');
     const fetchdata = async () => {
         try {
-            const usedata = await axios.get('http://127.0.0.1:7000/candidate')
+            const usedata = await axios.get('http://127.0.0.1:7001/candidates')
             const users = usedata.data;
             const filteredUsers = users.find((user) => user.applicationId === parseInt(params.id));
             setApplicantDetails(filteredUsers)
@@ -42,12 +42,15 @@ const SelectionProfile = () => {
     return (
         <div>
             <div className="row mt-2 container">
+            <div>
+                <Link className='bi-arrow-left btn btn-light my-3 px-3' to='/dashboardadmin/selectionletter'></Link>
+            </div>
                 <div className="col-9 w-100">
                     <div className='fw-bold fs-5 '>About</div>
-                    <div className='mt-5 ps-4 d-flex align-items-center'  >
-                        <Profile applicantdetail={applicantdetails} />
+                    <div className="w-75 ps-2 mt-3">
+                    <Profile applicantdetail={applicantdetails} />
                     </div>
-                    <button className="ms-2 mt-5 mb-2 px-4 btn  fw-bold">Details of {applicantdetails.candidateName} </button>
+                    <button className=" mt-5 mb-2 px-4 btn  fw-bold">Details of {applicantdetails.candidateName} </button>
                     <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
                         <div className='col-6'>
                             Application number
