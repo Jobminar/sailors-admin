@@ -1,10 +1,15 @@
 import React from "react"
+import { useNavigate } from "react-router-dom"
 
 const Adminprofile = () => {
+
+    const navigate = useNavigate('')
+    const Handilenavigate = () =>{
+        navigate('/dashboardadmin/adminprofile')
+    }
     return (
         <>
-            <div>
-                WEllcome to admin profile
+            <div className="m-3">
                 <table className="table table-striped table-bordered">
                     <thead>
                         <tr>
@@ -21,7 +26,7 @@ const Adminprofile = () => {
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>Vishnu Patel</td>
+                            <td onClick={Handilenavigate}>Vishnu Patel</td>
                             <td>patel@gmail.com</td>
                             <td>153694554</td>
                             <td>xxxx</td>
