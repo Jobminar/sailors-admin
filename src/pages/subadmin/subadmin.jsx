@@ -3,27 +3,32 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 
 const Subadmin = () => {
-    const [userDetail, setuserDetail] = useState([])
-    const param = useParams()
+    const [userDetail, setUserDetail] = useState({});
+    const [allSubadmins, setAllSubadmins] = useState([]);
+    const { id } = useParams(); // Destructure param for better readability
     const [file, setFile] = useState(null);
     const [error, setError] = useState(null);
-    const fetchdata = async () => {
-        try {
-            const userdata = await axios.get('http://127.0.0.1:7001/subadmin')
-            const users = userdata.data;
-            const filteredUsers = users.find((user) => user.number === param.id);
-            setuserDetail(filteredUsers)
-        } catch (error) {
-            console.log(error)
-        }
-    }
 
-    const handleShowFile = async () => {
+    const fetchData = async () => {
         try {
-            const response = await axios.get(`http://localhost:7001/fileById/${userDetail.photoId}`, {
+            const { data: users } = await axios.get('http://127.0.0.1:7001/subadmin');
+            const filteredUser = users.find((user) => user.number === id);
+            setAllSubadmins(users);
+            setUserDetail(filteredUser);
+            return filteredUser; // Return the filtered user for further use
+        } catch (err) {
+            console.error(err);
+            setError('Failed to fetch user details.');
+        }
+    };
+
+    const handleShowFile = async (photoId) => {
+        if (!photoId) return; // Avoid unnecessary calls if no photoId
+
+        try {
+            const response = await axios.get(`http://localhost:7001/fileById/${photoId}`, {
                 responseType: 'blob',
             });
-
             const fileURL = URL.createObjectURL(new Blob([response.data]));
             setFile(fileURL);
         } catch (err) {
@@ -31,60 +36,63 @@ const Subadmin = () => {
             setError('Failed to fetch the file.');
         }
     };
-    useEffect(() => {
-        handleShowFile()
-        fetchdata()
-    }, [handleShowFile, fetchdata])
-    return (
-        <>
-            <div style={{ padding: '40px' }}>
-                <div className="d-flex justify-content-between" >
-                    <div className="row text-secondary rounded-3 p-3" style={{ height: "30vh", width: '100%', backgroundColor: "white", boxShadow: "1px 1px 5px 4px #edf1f0  " }}>
-                        <div className='col-2 align-content-center'>
-                            <img src={file} alt="Uploaded file" style={{ width: '150px', height: '150px', }} />
-                        </div>
-                        <div className='col-5' style={{ alignContent: "center" }} >
-                            <dl >
-                                <div className='row'>
-                                    <dt className='col-3'>Name:</dt>
-                                    <dd className='col-9'>{userDetail.name}</dd>
-                                </div>
-                                <div className='row'>
-                                    <dt className='col-3'>Email:</dt>
-                                    <dd className='col-9'>{userDetail.email}</dd>
-                                </div>
-                                <div className='row'>
-                                    <dt className='col-3'>Number:</dt>
 
-                                    <dd className='col-9'>{userDetail.number}</dd>
+    useEffect(() => {
+        const fetchDataAndFile = async () => {
+            const user = await fetchData();
+            if (user) {
+                handleShowFile(user.photoId);
+            }
+        };
+        fetchDataAndFile();
+    }, [id]);
+
+    const checklistItems = userDetail.checklist
+        ? Object.entries(userDetail.checklist).map(([key, value]) => (
+            <div className="alert alert-info w-25 m-1" key={key}>
+                {value ? '✔️' : '❌'} {key}
+            </div>
+        ))
+        : [];
+
+    return (
+        <div style={{ padding: '40px' }}>
+            <div className="d-flex justify-content-between">
+                <div className="row text-secondary rounded-3 p-3" style={{ height: "30vh", width: '100%', backgroundColor: "white", boxShadow: "1px 1px 5px 4px #edf1f0" }}>
+                    <div className='col-2 align-content-center'>
+                        <img src={file} alt="Uploaded file" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
+                    </div>
+                    <div className='col-5' style={{ alignContent: "center" }}>
+                        <dl>
+                            {['name', 'email', 'number', 'password'].map((field, index) => (
+                                <div className='row' key={index}>
+                                    <dt className='col-3'>{field.charAt(0).toUpperCase() + field.slice(1)}:</dt>
+                                    <dd className='col-9'>{userDetail[field]}</dd>
                                 </div>
-                                <div className='row'>
-                                    <dt className='col-3'>password</dt>
-                                    <dd className='col-9'>{userDetail.password}</dd>
-                                </div>
-                            </dl>
-                        </div>
-                        <div className="text-end col-5">
-                            <Link className="btn btn-outline-primary" to='/dashboardadmin/subadmin/addadmin'>Add New Sub Admin</Link>
-                            <br />
-                            <div className="btn-group mt-4 border border-1">
-                                <button className=" btn btn-outline-light btn btn-outline-light bi-funnel text-dark p-3 border border-1 "></button>
-                                <button className="btn btn-outline-light text-dark border border-1">Filter BY</button>
-                                <select className="btn border-0">
-                                    <option value="-1">Sub Admin</option>
-                                    <option value="subadmin1">Sub Admin1</option>
-                                    <option value="subadmin2">Sub Admin2</option>
-                                    <option value="subadmin3">Sub Admin3</option>
-                                </select>
-                            </div>
+                            ))}
+                        </dl>
+                    </div>
+                    <div className="text-end col-5">
+                        <Link className="btn btn-outline-primary" to='/dashboardadmin/subadmin/addadmin'>Add New Sub Admin</Link>
+                        <br />
+                        <div className="btn-group mt-4 border border-1">
+                            <button className="btn btn-outline-light bi-funnel text-dark p-3 border border-1"></button>
+                            <button className="btn btn-outline-light text-dark border border-1">Filter BY</button>
+                            <select className="btn border-0">
+                                <option value="-1">Sub Admin</option>
+                                {allSubadmins.map((subadmin, i) => (
+                                    <option key={i} value={subadmin.name}>{subadmin.name}</option>
+                                ))}
+                            </select>
                         </div>
                     </div>
                 </div>
-                <div className="p-3 mt-5">
-                    
-                </div>
             </div>
-        </>
-    )
+            <div className="p-3 mt-5 d-flex flex-wrap">
+                {checklistItems}
+            </div>
+        </div>
+    );
 }
+
 export default Subadmin;

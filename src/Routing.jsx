@@ -16,7 +16,6 @@ import Confirmationdashboard from "./pages/confirmation/confirmationdashboard";
 import { Confirmationprofile } from "./pages/confirmation/confirmationprofile";
 import { Confirmationletterhead } from "./pages/confirmation/confirmationletter";
 import { Admitcardletterhead } from "./pages/admitcard/admitcardletter";
-import FileDisplay from "./pages/subabmin/addinsubadmin3/addsubadminn3";
 import ApplicationForm from "./pages/myapplication/applicationform/applicationform";
 import Subadmin from "./pages/subadmin/subadmin";
 import Addsubadmin from "./pages/subabmin/addsubadmin/addsubadmin";
@@ -24,6 +23,8 @@ import Interoutcome from "./pages/interviewfeadback/interviewoutcome";
 import Adminprofile from "./pages/subadmin/adminprofile/adminprofile";
 import Documentuser from "./components/documentsuser/documentuser";
 import { Usercomments } from "./pages/usercomment/usercomments";
+import Adminlogin from "./pages/adminLogin/login/adminlogin";
+import Adminsign from "./pages/adminLogin/sign/sign";
 
 const Routing = () => {
   return (
@@ -54,12 +55,14 @@ const Routing = () => {
             <Route path="confirmationletter/:applicationNo" element={<Confirmationletterhead />} />
             <Route path="enquires" element={<Enquires />} />
             <Route path="adminprofile/:id" element={<Subadmin />} />
-            <Route path="subadmin/addadmin" element={<Addsubadmin />} />
+            <Route path="subadmin/addadmin/:adminId" element={<Addsubadmin />} />
+            <Route path="subadmin/addadmin/" element={<Addsubadmin />} />
             <Route path="interviewSchedule/:id" element={<Interoutcome />} />
             <Route path="subadmin"  element={<Adminprofile />} />
           </Route>
-          <Route path="fileDisplay" element={<FileDisplay />} />
           <Route path="/documentuser" element={<Documentuser/>} />
+          <Route path="/login" element={<Adminlogin/>} />
+          <Route path="/adminsign" element={<Adminsign/>} />
         </Routes>
 
       </BrowserRouter>
