@@ -31,7 +31,6 @@ const Routing = () => {
       <BrowserRouter>
         <Headeradmin />
         <Routes>
-      
           <Route path="/" element={<Dashboardadmin />} />
           <Route path="/dashboardadmin" element={<Dashboardadmin />}>
             <Route path="myapplication" element={<Myapplication />} />

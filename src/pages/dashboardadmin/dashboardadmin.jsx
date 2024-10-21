@@ -4,9 +4,6 @@ import { Adminsidebar } from "../../components/adminsidebar/adminsidebar";
 
 export function Dashboardadmin() {
   const [selectedItem, setSelectedItem] = useState("dashboardadmin");
-  const Handileprint = () => {
-
-  }
   return (
     <div>
       <div style={{ display: "flex" }}>
