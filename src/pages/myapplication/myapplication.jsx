@@ -71,7 +71,7 @@ const Myapplication = () => {
 
             <div className="container row pt-3">
                 <div>
-                    <Link className='bi-arrow-left btn btn-light my-3 px-3' to='/dashboardadmin/myapplication'></Link>
+                <Link className='bi-arrow-left btn btn-light my-3 px-3' to='/dashboardadmin/myapplication'></Link>
                 </div>
                 <div className="col-9" style={{ width: "100%" }}>
                     <div className="btn-group   mt-2 mb-5">

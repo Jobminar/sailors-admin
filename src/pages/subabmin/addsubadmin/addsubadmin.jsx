@@ -1,65 +1,94 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import './addsubadmin.css';
+import axios from 'axios';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 
 const Addsubadmin = () => {
     const [files, setFile] = useState(null);
     const fileInputRef = useRef(null);
-    const [subadmindetails, setSubAdminDetails] = useState({
-        name: '',
-        number: '',
-        email: '',
-        password: ''
+    const navigate = useNavigate();
+    const location = useLocation();
+    const isEditing = location.state && location.state.admin;
+
+    // Validation schema using Yup
+    const validationSchema = Yup.object().shape({
+        name: Yup.string().required('Name is required'),
+        number: Yup.string()
+            .required('Mobile number is required')
+            .matches(/^\d{10}$/, 'Mobile number must be exactly 10 digits'),
+        email: Yup.string().email('Invalid email format').required('Email is required'),
+        password: Yup.string().required('Password is required'),
+        photo: Yup.mixed().required('A file is required'),
     });
+
+    // Initial values for the form
+    const initialValues = {
+        name: isEditing ? isEditing.name : '',
+        number: isEditing ? isEditing.number : '',
+        email: isEditing ? isEditing.email : '',
+        password: isEditing ? isEditing.password : '',
+        photo: null,
+        checklist: {
+            MyApplication: isEditing ? isEditing.checklist.MyApplication : false,
+            AdmitCard: isEditing ? isEditing.checklist.AdmitCard : false,
+            InterviewFeedback: isEditing ? isEditing.checklist.InterviewFeedback : false,
+            SelectionLetter: isEditing ? isEditing.checklist.SelectionLetter : false,
+            ConfirmationLetter: isEditing ? isEditing.checklist.ConfirmationLetter : false,
+            Financials: isEditing ? isEditing.checklist.Financials : false,
+        },
+    };
+
+    useEffect(() => {
+        if (isEditing) {
+            setFile(isEditing.photoId); // Pre-fill file if editing
+        }
+    }, [isEditing]);
 
     const handleClick = () => {
         fileInputRef.current.click();
     };
 
-    const handleFileChange = (event) => {
-        setFile(event.target.files[0]);
+    const handleFileChange = (event, setFieldValue) => {
+        const file = event.target.files[0];
+        setFile(file);
+        setFieldValue('photo', file); // Set file in Formik's state
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setSubAdminDetails({ ...subadmindetails, [name]: value });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (!subadmindetails.name || !subadmindetails.number || !subadmindetails.email || !subadmindetails.password || !files) {
-            alert('Please fill in all fields including the photo.');
-            return;
-        }
-
-        // Prepare form data to send to the server
+    const handleSubmit = async (values, { resetForm }) => {
         const formData = new FormData();
-        formData.append('name', subadmindetails.name);
-        formData.append('number', subadmindetails.number);
-        formData.append('email', subadmindetails.email);
-        formData.append('password', subadmindetails.password);
-        formData.append('file', files); // Append the file
+        formData.append('name', values.name);
+        formData.append('number', values.number);
+        formData.append('email', values.email);
+        formData.append('password', values.password);
+        formData.append('file', values.photo);
 
+        // Append checklist values
+        Object.entries(values.checklist).forEach(([key, value]) => {
+            formData.append(key, value ? 'true' : 'false');
+        });
 
         try {
-            const response = await fetch('http://localhost:7001/subadmincreate', {
-                method: 'POST',
-                body: formData
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-                alert(result.message);
-                // Reset form
-                setSubAdminDetails({
-                    name: '',
-                    number: '',
-                    email: '',
-                    password: ''
+            let response;
+            if (isEditing) {
+                response = await axios.put(`http://localhost:7001/subadmin/${isEditing._id}`, formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
                 });
+            } else {
+                response = await axios.post('http://localhost:7001/subadmincreate', formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                });
+            }
+
+            if (response.status === 200) {
+                alert(response.data.message);
+                resetForm();
                 setFile(null);
                 fileInputRef.current.value = '';
+                navigate('/dashboardadmin/subadmin'); // Navigate back to the admin list after saving
             } else {
-                alert('Error: ' + result.message);
+                alert('Error: ' + response.data.message);
             }
         } catch (error) {
             console.error('Error submitting form:', error);
@@ -67,93 +96,104 @@ const Addsubadmin = () => {
         }
     };
 
-
     return (
-        <div className="p-5 mx-5">
-            <div className="fw-bold fs-4">Add new Sub admin</div>
-            <form className='addsubadmin-form' onSubmit={handleSubmit}>
-                <dt>Enter Name</dt>
-                <dd>
-                    <input
-                        type='text'
-                        className="form-control"
-                        onChange={handleChange}
-                        name="name"
-                        value={subadmindetails.name}
-                        placeholder="Enter Name"
-                        required
-                    />
-                </dd>
-                <dt>Enter Mobile no.</dt>
-                <dd>
-                    <input
-                        type='number'
-                        className="form-control"
-                        onChange={handleChange}
-                        name="number"
-                        value={subadmindetails.number}
-                        placeholder="Mobile Number"
-                        required
-                    />
-                </dd>
-                <dt>Email for login</dt>
-                <dd>
-                    <input
-                        type='email'
-                        className="form-control"
-                        onChange={handleChange}
-                        name="email"
-                        value={subadmindetails.email}
-                        placeholder="example@gmail.com"
-                        required
-                    />
-                </dd>
-                <dt>Password</dt>
-                <dd>
-                    <input
-                        type='password'
-                        className="form-control"
-                        onChange={handleChange}
-                        name="password"
-                        value={subadmindetails.password}
-                        placeholder="Password"
-                        required
-                    />
-                </dd>
-                <dt>Upload photo</dt>
-                <dd
-                    className="img-box fs-6 d-flex align-items-center justify-content-center"
-                    style={{ cursor: "pointer", backgroundColor: "#f0f0f0" }}
-                    onClick={handleClick}
-                >
-                    {files ? (
-                        <img
-                            src={files && URL.createObjectURL(files)}
-                            alt={files.name}
-                            style={{ width: "100%", height: "100%", borderRadius: " 10px " }}
-                        />
-                    ) : (
-                        "upload photo"
-                    )}
-                </dd>
-                <div className='d-flex'>
-                    <div>
-                        <input
-                            type="file"
-                            ref={fileInputRef}
-                            onChange={handleFileChange}
-                            style={{ display: "none" }}
-                            accept=".jpg, .jpeg, .png"
-                            required
-                        />
-                    </div>
-                </div>
-                <div className='text-center'>
-                    <button className='btn w-75 text-light mt-5' style={{ backgroundColor: "#021e3d" }}>
-                        Submit
-                    </button>
-                </div>
-            </form>
+        <div className="container">
+            <div className='m-1'>
+                <Link className='bi-arrow-left btn btn-light my-3 px-3' to='/dashboardadmin/subadmin'></Link>
+            </div>
+            <h2 className="text-center">{isEditing ? 'Edit Subadmin' : 'Add New Subadmin'}</h2>
+            <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+            >
+                {({ setFieldValue }) => (
+                    <Form className='addsubadmin-form'>
+                        <div className="mb-3">
+                            <label htmlFor="name" className="form-label">Enter Name</label>
+                            <Field
+                                type='text'
+                                className="form-control"
+                                name="name"
+                                placeholder="Enter Name"
+                            />
+                            <ErrorMessage name="name" component="div" className="text-danger" />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="number" className="form-label">Enter Mobile no.</label>
+                            <Field
+                                type='text' // Changed to text to avoid unwanted behavior for leading zeros
+                                className="form-control"
+                                name="number"
+                                placeholder="Mobile Number"
+                            />
+                            <ErrorMessage name="number" component="div" className="text-danger" />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="email" className="form-label">Email for login</label>
+                            <Field
+                                type='email'
+                                className="form-control"
+                                name="email"
+                                placeholder="example@gmail.com"
+                            />
+                            <ErrorMessage name="email" component="div" className="text-danger" />
+                        </div>
+                        <div className="mb-3">
+                            <label htmlFor="password" className="form-label">Password</label>
+                            <Field
+                                type='password'
+                                className="form-control"
+                                name="password"
+                                placeholder="Password"
+                            />
+                            <ErrorMessage name="password" component="div" className="text-danger" />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label">Upload Photo</label>
+                            <div className="img-box fs-6 d-flex align-items-center justify-content-center" style={{ cursor: "pointer", backgroundColor: "#f0f0f0" }} onClick={handleClick}>
+                                {files ? (
+                                    <img
+                                    src={files ? `http://localhost:7001/fileById/${isEditing.photoId}`: URL.createObjectURL(files) } 
+                                    alt={files ? files.name : 'img'}
+                                    style={{ width: "100%", height: "100%", borderRadius: "10px" }}
+                                />
+                                ) : (
+                                    "Upload Photo"
+                                )}
+                            </div>
+                            <input
+                                type="file"
+                                ref={fileInputRef}
+                                onChange={(event) => handleFileChange(event, setFieldValue)}
+                                style={{ display: "none" }}
+                                accept=".jpg, .jpeg, .png"
+                            />
+                            <ErrorMessage name="photo" component="div" className="text-danger" />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label">Permissions</label>
+                            <div className='d-flex flex-wrap'>
+                                {Object.keys(initialValues.checklist).map((key) => (
+                                    <div key={key} className="form-check alert alert-dark w-25 m-1">
+                                        <Field
+                                            type="checkbox"
+                                            className="form-check-input m-1"
+                                            name={`checklist.${key}`}
+                                        />
+                                        <label className="form-check-label"> {key}</label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div className='text-center'>
+                            <button type='submit' className='btn btn-primary w-50 py-3 mt-4'>
+                                {isEditing ? 'Update Subadmin' : 'Submit'}
+                            </button>
+                        </div>
+                    </Form>
+                )}
+            </Formik>
         </div>
     );
 };
