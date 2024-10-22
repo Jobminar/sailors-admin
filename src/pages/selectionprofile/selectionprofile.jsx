@@ -23,8 +23,7 @@ const SelectionProfile = () => {
     }
 
     const HandileSelect = (e) => {
-        const selected = e.target.value
-        if (selected === 'Approved') {
+        if(applicantdetails.applicationstatus) {
             setShow('d-block')
         } else {
             setShow('d-none')
@@ -36,8 +35,9 @@ const SelectionProfile = () => {
     }
     
     useEffect(() => {
+        HandileSelect()
         fetchdata()
-    }, [])
+    }, [HandileSelect,fetchdata])
 
     return (
         <div>
@@ -65,11 +65,7 @@ const SelectionProfile = () => {
                             Application Status
                         </div>
                         <div className='col-6'>
-                            <select className='form-select bg-transparent' onChange={HandileSelect}>
-                                <option value="-1">select</option>
-                                <option value="Approved">Approved</option>
-                                <option value="Reject">Reject</option>
-                            </select>
+                            {(applicantdetails.applicationstatus)?'Approved':'Reject'}
                         </div>
                     </div>
                     <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>

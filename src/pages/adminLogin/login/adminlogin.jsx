@@ -1,15 +1,18 @@
+import axios from "axios"
 import { Formik,Form,Field,ErrorMessage } from "formik"
+import { useCookies } from "react-cookie"
 import { useNavigate } from "react-router-dom"
 import * as yup from 'yup'
 
 const Adminlogin  = () => {
     const navigate = useNavigate('')
+    const [adminCookie, setCookie, removeCookie] = useCookies(["user"]);
     const HandileLogin = () =>{
-        navigate('/login')
+        navigate('/')
     }
     return(
         <>
-            <div className="d-flex justify-content-center align-items-center bg-dark" style={{height:'90vh',width:'100%'}}>
+            <div className="d-flex justify-content-center align-items-center bg-dark" style={{height:'100vh',width:'100%'}}>
                 <div className="bg-light border border-1 rounded-3" style={{padding:'20px 80px'}}>
                     <div className="fw-medium fs-2 p-2">Log In to Admin Panel</div>
                     <div className="mb-5 text-center">Enter your mail and Password below</div>
@@ -19,9 +22,14 @@ const Adminlogin  = () => {
                             adminEmail:yup.string().email('Invalid Email').required('Email is required'),
                             adminPassword:yup.string().required('Password is required'),
                         })}
-                        onSubmit={(values, { setSubmitting }) => {
-                            console.log(values);
-                            alert(values)
+                        onSubmit={async(values, { setSubmitting }) => {
+                            try{
+                                await axios.post('http://localhost:7001/loginmainsubadmin',values)
+                                setCookie('user', values.adminEmail);
+                                navigate('/')
+                            }catch(error){
+                                console.log(error)
+                            }
                         }}
                     >
                         {
@@ -29,10 +37,10 @@ const Adminlogin  = () => {
                                 <dl>
                                     <dt>Email</dt>
                                     <dd><Field type='input' className='form-control' name='adminEmail' placeholder='Enter Your Email' /></dd>
-                                    <dd><ErrorMessage name='adminEmail' /></dd>
+                                    <dd className="text-danger"><ErrorMessage name='adminEmail' /></dd>
                                     <dt>Password</dt>
                                     <dd><Field type='password' className='form-control' name='adminPassword' placeholder='Enter Your Password' /></dd>
-                                    <dd><ErrorMessage name='adminpassword' /></dd>
+                                    <dd className="text-danger"><ErrorMessage name='adminpassword' /></dd>
                                     <dd><button className="btn btn-dark py-2 px-5 w-100 mt-3" type='submit' >Submit</button></dd>
                                     <dd className="d-flex justify-content-around"><div>Don't have accout?</div> <div onClick={HandileLogin}>Sing</div></dd>
                                 </dl>

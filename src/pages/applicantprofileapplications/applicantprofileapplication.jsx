@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { useEffect, useState } from "react";
 
@@ -7,6 +7,7 @@ export function Applicantprofileapplication() {
     const [applicantdetails, setapplicatdetails] = useState({})
     const param = useParams()
     const [data, setdata] = useState([{}])
+    const navigate = useNavigate('')
     const fetchdata = async () => {
         try {
             const usedata = await axios.get('http://127.0.0.1:7001/candidates')
@@ -19,6 +20,9 @@ export function Applicantprofileapplication() {
             console.error(error, 'catch error');
         }
         // console.log(param, 'filter')
+    }
+    const Handilenavigate = (id) =>{
+        navigate(`/dashboardadmin/applicationstatus/${id}`)
     }
     useEffect(() => {
         fetchdata()
@@ -46,7 +50,7 @@ export function Applicantprofileapplication() {
                                 {data.map((item, index) => (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
-                                        <td>{item.applicationId}</td>
+                                        <td onClick={()=>Handilenavigate(item.applicationId)}>{item.applicationId}</td>
                                         <td>{item.applicationstatus ? 'Approved' : 'Rejected'}</td>
                                         <td>{item.admitCard}</td>
                                         <td>{item.officerName}</td>

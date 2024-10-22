@@ -2,9 +2,12 @@ import React from "react";
 import useFetchData from '../../../Hook/Getalluser/getalluser';
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { useCookies } from "react-cookie";
 
 const Adminprofile = () => {
     const { data, error, isLoading } = useFetchData('http://localhost:7001/subadmin');
+    const [adminCookie, setCookie, removeCookie] = useCookies(["user"]);
+
     const navigate = useNavigate();
 
     const Handilenavigate = (num) => {
@@ -29,12 +32,18 @@ const Adminprofile = () => {
     const handleEdit = (admin) => {
         navigate('/dashboardadmin/subadmin/addadmin', { state: { admin } }); // Pass admin details
     }
+    const HandilLogout = ()=>{
+        removeCookie('user')
+        navigate('/')
+    }
 
     return (
         <>
             <div className="m-3">
-                <div className="text-end">
-                    <Link className="btn btn-outline-primary mb-2" to='/dashboardadmin/subadmin/addadmin'>Add New Sub Admin</Link>
+                <div className="text-end align-content-center">
+                    <div>
+                        <button className="btn btn-outline-danger px-3 me-2 mb-2" onClick={HandilLogout}>Logout</button>
+                        <Link className="btn btn-outline-primary mb-2" to='/dashboardadmin/subadmin/addadmin'>Add New Sub Admin</Link></div>
                 </div>
                 <table className="table table-striped table-bordered">
                     <thead>

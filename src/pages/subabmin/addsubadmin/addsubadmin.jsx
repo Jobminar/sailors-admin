@@ -6,12 +6,12 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
 const Addsubadmin = () => {
-    const [files, setFile] = useState(null);
-    const fileInputRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
     const isEditing = location.state && location.state.admin;
-
+    const [files, setFile] = useState(isEditing ? isEditing.photoId : null);
+    const fileInputRef = useRef(null);
+    
     // Validation schema using Yup
     const validationSchema = Yup.object().shape({
         name: Yup.string().required('Name is required'),
@@ -49,11 +49,10 @@ const Addsubadmin = () => {
     const handleClick = () => {
         fileInputRef.current.click();
     };
-
     const handleFileChange = (event, setFieldValue) => {
         const file = event.target.files[0];
         setFile(file);
-        setFieldValue('photo', file); // Set file in Formik's state
+        setFieldValue('photo', file);
     };
 
     const handleSubmit = async (values, { resetForm }) => {
@@ -62,13 +61,17 @@ const Addsubadmin = () => {
         formData.append('number', values.number);
         formData.append('email', values.email);
         formData.append('password', values.password);
-        formData.append('file', values.photo);
-
+        
+        // Only append the file if it's a new File object
+        if (values.photo instanceof File) {
+            formData.append('file', values.photo);
+        }
+    
         // Append checklist values
         Object.entries(values.checklist).forEach(([key, value]) => {
             formData.append(key, value ? 'true' : 'false');
         });
-
+    
         try {
             let response;
             if (isEditing) {
@@ -80,12 +83,14 @@ const Addsubadmin = () => {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
             }
-
+    
             if (response.status === 200) {
                 alert(response.data.message);
                 resetForm();
                 setFile(null);
-                fileInputRef.current.value = '';
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = '';
+                }
                 navigate('/dashboardadmin/subadmin'); // Navigate back to the admin list after saving
             } else {
                 alert('Error: ' + response.data.message);
@@ -95,7 +100,6 @@ const Addsubadmin = () => {
             alert('There was a problem submitting the form.');
         }
     };
-
     return (
         <div className="container">
             <div className='m-1'>
@@ -152,14 +156,20 @@ const Addsubadmin = () => {
                         <div className="mb-3">
                             <label className="form-label">Upload Photo</label>
                             <div className="img-box fs-6 d-flex align-items-center justify-content-center" style={{ cursor: "pointer", backgroundColor: "#f0f0f0" }} onClick={handleClick}>
-                                {files ? (
+                                {isEditing && !files instanceof File ? (
                                     <img
-                                    src={files ? `http://localhost:7001/fileById/${isEditing.photoId}`: URL.createObjectURL(files) } 
-                                    alt={files ? files.name : 'img'}
-                                    style={{ width: "100%", height: "100%", borderRadius: "10px" }}
-                                />
+                                        src={`http://localhost:7001/fileById/${isEditing.photoId}`}
+                                        alt="Admin"
+                                        style={{ width: "100%", height: "100%", borderRadius: "10px" }}
+                                    />
+                                ) : files ? (
+                                    <img
+                                        src={files instanceof File ? URL.createObjectURL(files) : `http://localhost:7001/fileById/${files}`}
+                                        alt="Selected"
+                                        style={{ width: "100%", height: "100%", borderRadius: "10px" }}
+                                    />
                                 ) : (
-                                    "Upload Photo"
+                                    "Click to upload image"
                                 )}
                             </div>
                             <input
