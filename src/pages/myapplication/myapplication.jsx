@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie";
 import axios from 'axios'
 import './myapplication.css'
+import moment from 'moment';
 
 const Myapplication = () => {
     const navigate = useNavigate();
@@ -184,7 +185,7 @@ const Myapplication = () => {
                                         <td onClick={() => applicationStatusClicked(item.applicationId)} style={{ cursor: 'pointer' }}>{item.applicationstatus ? "Approved" : "Rejected"}</td>
                                         <td className="no-wrap">{adminCookie.user}</td>
                                         <td>{item.applicationstatus ? "Generated" : "N/A"}</td>
-                                        <td>21-10-2024</td>
+                                        <td>{moment(item.createdAt).format('YYYY-MM-DD')}</td>
                                         <td className="no-wrap">{adminCookie.user}</td>
                                         <td>{item.applicationstatus ? "Approved" : "N/A"}</td>
                                         <td className="no-wrap">{adminCookie.user}</td>

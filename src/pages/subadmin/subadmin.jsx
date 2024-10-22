@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const Subadmin = () => {
     const [userDetail, setUserDetail] = useState({});
@@ -8,6 +8,7 @@ const Subadmin = () => {
     const { id } = useParams(); // Destructure param for better readability
     const [file, setFile] = useState(null);
     const [error, setError] = useState(null);
+    const navigate = useNavigate('')
 
     const fetchData = async () => {
         try {
@@ -36,6 +37,10 @@ const Subadmin = () => {
             setError('Failed to fetch the file.');
         }
     };
+    const Handilechange= (e)=>{
+        const adminnumbver =  e.target.value;
+        navigate(`/dashboardadmin/adminprofile/${adminnumbver}`)
+    }
 
     useEffect(() => {
         const fetchDataAndFile = async () => {
@@ -57,7 +62,7 @@ const Subadmin = () => {
 
     return (
         <div style={{ padding: '40px' }}>
-            <div className="d-flex justify-content-between">
+            <div>
                 <div className="row text-secondary rounded-3 p-3" style={{ height: "30vh", width: '100%', backgroundColor: "white", boxShadow: "1px 1px 5px 4px #edf1f0" }}>
                     <div className='col-2 align-content-center'>
                         <img src={file} alt="Uploaded file" style={{ width: '150px', height: '150px', borderRadius: '50%' }} />
@@ -78,18 +83,21 @@ const Subadmin = () => {
                         <div className="btn-group mt-4 border border-1">
                             <button className="btn btn-outline-light bi-funnel text-dark p-3 border border-1"></button>
                             <button className="btn btn-outline-light text-dark border border-1">Filter BY</button>
-                            <select className="btn border-0">
+                            <select className="btn border-0" onChange={(e)=>Handilechange(e)}>
                                 <option value="-1">Sub Admin</option>
                                 {allSubadmins.map((subadmin, i) => (
-                                    <option key={i} value={subadmin.name}>{subadmin.name}</option>
+                                    <option key={i} value={subadmin.number} className="text-start">{subadmin.name}</option>
                                 ))}
                             </select>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="p-3 mt-5 d-flex flex-wrap">
-                {checklistItems}
+            <div className="mt-5 ">
+                <h3>Permision</h3>
+                <div className="d-flex flex-wrap">
+                    {checklistItems}
+                </div>
             </div>
         </div>
     );

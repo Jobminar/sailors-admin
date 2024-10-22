@@ -25,44 +25,60 @@ import Documentuser from "./components/documentsuser/documentuser";
 import { Usercomments } from "./pages/usercomment/usercomments";
 import Adminlogin from "./pages/adminLogin/login/adminlogin";
 import Adminsign from "./pages/adminLogin/sign/sign";
+import { useCookies } from "react-cookie";
 
 const Routing = () => {
+
+  const [adminCookie, setcookie] = useCookies(["user"]);
+
+
   return (
     <>
       <BrowserRouter>
-        <Headeradmin />
-        <Routes>
-          <Route path="/" element={<Dashboardadmin />} />
-          <Route path="/dashboardadmin" element={<Dashboardadmin />}>
-            <Route path="myapplication" element={<Myapplication />} />
-            <Route path="admitcard/:applicationNo" element={<Admitcard />} />
-            <Route path="admitcardletter/:applicationNo" element={<Admitcardletterhead />} />
-            <Route path="admitcarddashboard" element={<Admitcarddashboard />} />
-            <Route path="interviewSchedule" element={<InterviewSchedule />} />
-            <Route path="applicationstatus/:id" element={<ApplicationForm />} />
-            <Route path="applicantprofile" element={<Applicantprofile />} />
-            <Route path="applicantprofile/:applicationNo" element={<Applicantprofile />} >
-              <Route path="applicantprofileapplication" element={<Applicantprofileapplication />} />
-              <Route path="applicantfinance" element={<Applicantfinance />} />
-              <Route path="applicantcomment" element={<Usercomments/>} />
-            </Route>
-            <Route path="selectionletter" element={<Selectionpage />} />
-            <Route path="selectionletter/:id" element={<SelectionProfile />} />
-            <Route path="selectionletter/:id/letter" element={<Selectionletterhead />} />
-            <Route path="confirmationdashboard" element={<Confirmationdashboard />} />
-            <Route path="confirmationprofile/:applicationNo" element={<Confirmationprofile />} />
-            <Route path="confirmationletter/:applicationNo" element={<Confirmationletterhead />} />
-            <Route path="enquires" element={<Enquires />} />
-            <Route path="adminprofile/:id" element={<Subadmin />} />
-            <Route path="subadmin/addadmin/:adminId" element={<Addsubadmin />} />
-            <Route path="subadmin/addadmin/" element={<Addsubadmin />} />
-            <Route path="interviewSchedule/:id" element={<Interoutcome />} />
-            <Route path="subadmin"  element={<Adminprofile />} />
-          </Route>
-          <Route path="/documentuser" element={<Documentuser/>} />
-          <Route path="/login" element={<Adminlogin/>} />
-          <Route path="/adminsign" element={<Adminsign/>} />
-        </Routes>
+
+        {
+          (adminCookie.user) ? <div>
+            <Headeradmin />
+            <Routes>
+
+              <Route path="/" element={<Dashboardadmin />} />
+              <Route path="/dashboardadmin" element={<Dashboardadmin />}>
+                <Route path="myapplication" element={<Myapplication />} />
+                <Route path="admitcard/:applicationNo" element={<Admitcard />} />
+                <Route path="admitcardletter/:applicationNo" element={<Admitcardletterhead />} />
+                <Route path="admitcarddashboard" element={<Admitcarddashboard />} />
+                <Route path="interviewSchedule" element={<InterviewSchedule />} />
+                <Route path="applicationstatus/:id" element={<ApplicationForm />} />
+                <Route path="applicantprofile" element={<Applicantprofile />} />
+                <Route path="applicantprofile/:applicationNo" element={<Applicantprofile />} >
+                  <Route path="applicantprofileapplication" element={<Applicantprofileapplication />} />
+                  <Route path="applicantfinance" element={<Applicantfinance />} />
+                  <Route path="applicantcomment" element={<Usercomments />} />
+                </Route>
+                <Route path="selectionletter" element={<Selectionpage />} />
+                <Route path="selectionletter/:id" element={<SelectionProfile />} />
+                <Route path="selectionletter/:id/letter" element={<Selectionletterhead />} />
+                <Route path="confirmationdashboard" element={<Confirmationdashboard />} />
+                <Route path="confirmationprofile/:applicationNo" element={<Confirmationprofile />} />
+                <Route path="confirmationletter/:applicationNo" element={<Confirmationletterhead />} />
+                <Route path="enquires" element={<Enquires />} />
+                <Route path="adminprofile/:id" element={<Subadmin />} />
+                <Route path="subadmin/addadmin/:adminId" element={<Addsubadmin />} />
+                <Route path="subadmin/addadmin/" element={<Addsubadmin />} />
+                <Route path="interviewSchedule/:id" element={<Interoutcome />} />
+                <Route path="subadmin" element={<Adminprofile />} />
+              </Route>
+              <Route path="/documentuser" element={<Documentuser />} />
+            </Routes>
+          </div> : <div>
+            <Routes>
+              <Route path="/login" element={<Adminlogin />} />
+              <Route path="/" element={<Adminsign />} />
+            </Routes>
+          </div>
+        }
+
+
 
       </BrowserRouter>
     </>
