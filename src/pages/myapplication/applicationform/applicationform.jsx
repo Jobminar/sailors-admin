@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Myapplication from '../myapplication';
 import moment from 'moment';
+import { useCookies } from 'react-cookie';
 const ApplicationForm = () => {
   const navigate = useNavigate()
   const [formData, setFormData] = useState({});
@@ -13,7 +14,7 @@ const ApplicationForm = () => {
   const [aadharphoto, setaadharPhoto] = useState(null);
   const [error, setError] = useState(null);
   const params = useParams()
-  console.log(formData.passport);
+  const [adminCookie,removeadminCookie] = useCookies(["user"]);
 
   const Getuserdata = async () => {
     try {
@@ -57,16 +58,36 @@ const ApplicationForm = () => {
     }
   }, [formData]);
 
-  const handleapprovedClicked = async (id) => {
+  const HandileUpdatestaus = async (id,status) => {
+    const applicationstatus = {
+      Apstatus:status,
+      ApOfficerName:adminCookie.user,
+
+      admitcardstatus:formData.admitcard.status,
+      admitcardofficer:formData.admitcard.OfficerName,
+
+      interviewdate:formData.interviewoutcome.date,
+      interviewtime:formData.interviewoutcome.time,
+      interviewofficer:formData.interviewoutcome.OfficerName,
+
+      selectionletterstatus:formData.selectionletter.status,
+      selectionletterofficer:formData.selectionletter.OfficerName,
+
+      confirmationletterstatus:formData.confirmationletter.status,
+      confirmationletterofficer:formData.confirmationletter.OfficerName,
+    }
     try {
-      const response = await axios.patch(`http://localhost:7000/candidate/${id}`, {
-        applicationStatus: true, 
-      });
+      const response = await axios.patch(`http://localhost:7001/candidate/${id}`,applicationstatus);
+      alert('response updated sucessfull')
       console.log(response);
+      navigate('/dashboardadmin/myapplication')
     } catch (error) {
       console.error(error);
+      alert('response is not updating sucessfull')
     }
   };
+
+
   return (
     <>
       <Link className='bi-arrow-left btn btn-light ms-3 mt-2' to='/dashboardadmin/myapplication'></Link>
@@ -469,14 +490,14 @@ const ApplicationForm = () => {
               <button
                 style={{ backgroundColor: "#0486AA" }}
                 className="btn  text-light px-5 py-2 mt-4"
-              // onClick={handlerejectedClicked}
+                onClick={()=>HandileUpdatestaus(formData.applicationId,'Rejected')}
               >
                 REJECTED
               </button>
               <button
                 style={{ backgroundColor: "#0486AA" }}
                 className='btn text-light px-5 py-2 mt-4 ms-2'
-              onClick={()=>handleapprovedClicked(formData.applicationId)}
+                onClick={()=>HandileUpdatestaus(formData.applicationId,'Approved')}
               >
                 APPROVED
               </button>

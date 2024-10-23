@@ -4,14 +4,16 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import Profile from '../profile/profile';
 import axios from 'axios';
 import moment from 'moment';
+import { useCookies } from 'react-cookie';
 
 export function Admitcard() {
   const navigate = useNavigate();
   const param = useParams()
   const [admitcarddetails, setadmitcarddetails] = useState([{}]);
-  function btngenereteadmit(details) {
-    navigate(`/dashboardadmin/admitcardletter/${admitcarddetails.applicationId}`)
-  }
+  const [time, settime] = useState('')
+  const [date, setdate] = useState('')
+  const [adminCookie,removeadminCookie] = useCookies(["user"]);
+
   const fetchdata = async () => {
     try {
       const usedata = await axios.get('http://127.0.0.1:7001/candidates')
@@ -22,6 +24,35 @@ export function Admitcard() {
       console.error(error, 'catch error');
     }
   }
+
+  const btngenereteadmit = async (id) => {
+    const applicationstatus = {
+      Apstatus: admitcarddetails.applicationstatus.status,
+      ApOfficerName: admitcarddetails.applicationstatus.OfficerName,
+
+      admitcardstatus: admitcarddetails.admitcard.status,
+      admitcardofficer: admitcarddetails.admitcard.OfficerName,
+
+      interviewdate: date,
+      interviewtime: time,
+      interviewofficer: adminCookie.user,
+
+      selectionletterstatus: admitcarddetails.selectionletter.status,
+      selectionletterofficer: admitcarddetails.selectionletter.OfficerName,
+
+      confirmationletterstatus: admitcarddetails.confirmationletter.status,
+      confirmationletterofficer: admitcarddetails.confirmationletter.OfficerName,
+    }
+    try {
+      const response = await axios.patch(`http://localhost:7001/candidate/${id}`, applicationstatus);
+      alert('response updated sucessfull')
+      navigate(`/dashboardadmin/admitcardletter/${admitcarddetails.applicationId}`)
+    } catch (error) {
+      console.error(error);
+      alert('response is not updating sucessfull')
+    }
+  };
+
   useEffect(() => {
     fetchdata();
   }, [])
@@ -36,7 +67,7 @@ export function Admitcard() {
           <div className='fw-bold fs-5 '>About</div>
 
           <div className="ms-2 w-75 mt-3">
-          <Profile  applicantdetail={admitcarddetails} />
+            <Profile applicantdetail={admitcarddetails} />
 
           </div>
           <div className='text-secondary mt-4'>
@@ -48,7 +79,7 @@ export function Admitcard() {
               </div>
               <div className='d-flex my-4  bg-light '>
                 <dt className='mx-4 col-5'>Application status</dt>
-                <dd>{admitcarddetails.applicationstatus ? 'Approved' : 'Not Approved'}</dd>
+                <dd>{admitcarddetails?.applicationstatus?.status}</dd>
               </div>
               <div className='d-flex my-4   bg-light '>
                 <dt className='mx-4 col-5'>Date of applied</dt>
@@ -56,16 +87,23 @@ export function Admitcard() {
               </div>
               <div className='d-flex my-4  bg-light '>
                 <dt className='mx-4 col-5 '>Date of Interview</dt>
-                <dd><input className='form-control' type='date'></input></dd>
+                <dd><input className='form-control' type='date' value={moment(date).format('YYYY-MM-DD')} onChange={(e) => setdate(e.target.value)}></input></dd>
               </div>
               <div className='d-flex my-4  bg-light '>
                 <dt className='mx-4 col-5'>Time of Interview</dt>
-                <dd className='d-flex align-items-center'><input type='time' className='form-control'></input></dd>
+                <dd className='d-flex align-items-center'><input type='time' className='form-control' value={moment(time, "HH:mm").format("hh:mm")} onChange={(e) => settime(e.target.value)}></input></dd>
               </div>
             </dl>
           </div>
           <div className='text-center'>
-            <button className='btn text-light  py-3 ' style={{ width: "40%", backgroundColor: "#1995cc" }} onClick={() => btngenereteadmit(admitcarddetails)}>Generate Admit card</button>
+            <button
+              className={`btn text-light py-3 ${(admitcarddetails?.applicationstatus?.status === 'Approved') ? 'd-inline' : 'd-none'}`}
+              style={{ width: "40%", backgroundColor: "#1995cc" }}
+              onClick={() => btngenereteadmit(admitcarddetails.applicationId)}
+            >
+              Generate Admit Card
+            </button>
+
           </div>
         </div>
       </div>

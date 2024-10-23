@@ -182,10 +182,10 @@ const Myapplication = () => {
                                         <td onClick={() => rollNoClicked(item.applicationId)} style={{ cursor: 'pointer' }}>
                                             {item.applicationId}
                                         </td>
-                                        <td onClick={() => applicationStatusClicked(item.applicationId)} style={{ cursor: 'pointer' }}>{item.applicationstatus ? "Approved" : "Rejected"}</td>
-                                        <td className="no-wrap">{adminCookie.user}</td>
+                                        <td onClick={() => applicationStatusClicked(item.applicationId)} style={{ cursor: 'pointer' }}>{item.applicationstatus.status}</td>
+                                        <td className="no-wrap">{item.applicationstatus.OfficerName}</td>
                                         <td>{item.applicationstatus ? "Generated" : "N/A"}</td>
-                                        <td>{moment(item.createdAt).format('YYYY-MM-DD')}</td>
+                                        <td>{moment(item.interviewoutcome.date).format('YYYY-MM-DD')}</td>
                                         <td className="no-wrap">{adminCookie.user}</td>
                                         <td>{item.applicationstatus ? "Approved" : "N/A"}</td>
                                         <td className="no-wrap">{adminCookie.user}</td>
