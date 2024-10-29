@@ -3,35 +3,79 @@ import axios from 'axios';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Profile from '../profile/profile';
 import moment from 'moment'
+import { useCookies } from "react-cookie";
+
+
+//.................................................Reportinf date and traning date should update......................................
 
 const SelectionProfile = () => {
     const [applicantdetails, setApplicantDetails] = useState([])
     const [show, setShow] = useState('d-none')
-    const [date, setDate] = useState(null)
-    const params = useParams()
+    const [date, setDate] = useState(0)
+    const [Amount,setAmount] = useState(null)
+    const {id} = useParams()
     const navigate = useNavigate('')
-    // const today = moment().format('YYYY-MM-DD');
+    const [adminCookie,removeadminCookie] = useCookies(["user"]);
+
     const fetchdata = async () => {
         try {
             const usedata = await axios.get('http://127.0.0.1:7001/candidates')
             const users = usedata.data;
-            const filteredUsers = users.find((user) => user.applicationId === parseInt(params.id));
+            const filteredUsers = users.find((user) => user.applicationId === parseInt(id));
             setApplicantDetails(filteredUsers)
         } catch (error) {
             console.error(error, 'catch error');
         }
     }
 
-    const HandileSelect = (e) => {
-        if(applicantdetails.applicationstatus) {
+    const HandileSelect = () => {
+        if(applicantdetails?.applicationstatus?.status === 'Approved') {
             setShow('d-block')
         } else {
             setShow('d-none')
         }
     }
 
-    const HandileGenerate = () =>{
+    const HandileGenerate = async (s) =>{
         navigate(`/dashboardadmin/selectionletter/${applicantdetails.applicationId}/letter`)
+        const userdata = {
+            // Update application status
+            Apstatus: applicantdetails?.applicationstatus?.status,
+            ApOfficerName: applicantdetails.applicationstatus.OfficerName,
+        
+            // Update admit card details
+            admitcardstatus: applicantdetails?.admitcard?.status,
+            admitcarddate: applicantdetails?.admitcard?.date,
+            admitcardtime: applicantdetails?.admitcard?.time,
+            admitcardofficer: applicantdetails?.admitcard?.OfficerName,
+        
+            // Update interview outcome details
+            interviewfeedback: applicantdetails?.interviewoutcome?.interviewFeedback, // Include interview feedback
+            interviewstatus:applicantdetails?.interviewoutcome?.status,
+            interviewofficer: applicantdetails?.interviewoutcome?.OfficerName,
+        
+            // Update selection letter details
+            selectionletterstatus: s,
+            initialamount:Amount,
+            deadlinedate:date,
+            selectionletterofficer: adminCookie.user,
+
+            // Update confirmation letter details
+            confirmationletterstatus: applicantdetails?.confirmationletter?.status,
+            instalment2amt: applicantdetails?.confirmationletter?.InstalmentAmount2,
+            instalment3amt: applicantdetails?.confirmationletter?.InstalmentAmount3,
+            instalment2dat: applicantdetails?.confirmationletter?.InstalmentDate2,
+            instalment3dat: applicantdetails?.confirmationletter?.InstalmentDate3,
+            confirmationletterofficer:  applicantdetails?.confirmationletter?.status,
+          };
+          try {
+            const response = await axios.patch(`http://localhost:7001/candidate/${id}`, userdata);
+            alert('Response updated successfully');
+            navigate(`/dashboardadmin/selectionletter/${applicantdetails.applicationId}/letter`)
+          } catch (error) {
+            console.error(error);
+            alert('Response update failed');
+          }
     }
     
     useEffect(() => {
@@ -65,7 +109,7 @@ const SelectionProfile = () => {
                             Application Status
                         </div>
                         <div className='col-6'>
-                            {(applicantdetails.applicationstatus)?'Approved':'Reject'}
+                            {applicantdetails?.interviewoutcome?.status}
                         </div>
                     </div>
                     <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
@@ -74,7 +118,7 @@ const SelectionProfile = () => {
 
                         </div>
                         <div className='col-6'>
-                        {moment(applicantdetails.createdAt).format('YYYY-MM-DD')}
+                            {moment(applicantdetails.createdAt).format('YYYY-MM-DD')}
                         </div>
                     </div>
                     <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
@@ -82,8 +126,7 @@ const SelectionProfile = () => {
                             Initial Amount
                         </div>
                         <div className='col-6'>
-                            <input type="text" name="Initialamount" className='form-control bg-transparent' placeholder='Enter  Initial Amount' />
-
+                            <input type="text" name="Initialamount" className='form-control bg-transparent w-50' placeholder='Enter  Initial Amount' onChange={(e)=>{setAmount(e.target.value)}} />
                         </div>
                     </div>
                     <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
@@ -91,11 +134,11 @@ const SelectionProfile = () => {
                             Deadline date
                         </div>
                         <div className='col-6'>
-                            <input type="date" name="Deadline" min={moment().format('YYYY-MM-DD')} className='form-control bg-transparent' onChange={(e) => setDate(e.target.value)} />
+                            <input type="date" name="Deadline" min={moment().format('YYYY-MM-DD')} onChange={(e) => setDate(e.target.value)}  className='form-control bg-transparent w-50'/>
                         </div>
                     </div>
                     <div className={`text-center  ${show}`}>
-                        <button className='btn py-3 fs-4' style={{backgroundColor:'#0486aa'}} onClick={HandileGenerate}>Generate Selection Letter</button>
+                        <button className='btn py-3 fs-4' style={{backgroundColor:'#0486aa'}} onClick={()=>HandileGenerate('Generated')}>Generate Selection Letter</button>
                     </div>
                 </div>
             </div>

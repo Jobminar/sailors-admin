@@ -141,16 +141,17 @@ const InterviewSchedule = () => {
                                     <tr key={index}>
                                         <td>{index + 1}</td>
                                         <td className="no-wrap">{item.candidateName}</td>
-                                        <td onClick={() => rollNoClicked(item.applicationId)} style={{ cursor: 'pointer' }}>
-                                            {item.applicationId}
-                                        </td>
-                                        <td style={{ cursor: 'pointer' }}>{item.applicationstatus ? "Approved" : "Rejected"}</td>
-                                        <td className="no-wrap">{adminCookie.user}</td>
-                                        <td>{item.applicationstatus ? "Generated" : "N/A"}</td>
-                                        <td>21-10-2024</td>
-                                        <td className="no-wrap">{adminCookie.user}</td>
-                                        <td>{item.applicationstatus ? "Approved" : "N/A"}</td>
-                                        <td className="no-wrap">{adminCookie.user}</td>
+                                        <td onClick={() => rollNoClicked(item.applicationId)} style={{ cursor: 'pointer' }}>{item.applicationId}</td>
+                                        
+                                        <td style={{ cursor: 'pointer' }}>{item.applicationstatus.status}</td>
+                                        <td className="no-wrap">{item.applicationstatus.OfficerName}</td>
+                                        
+                                        <td>{(item.applicationstatus.status === 'Approved')?item.admitcard.status:'Not Checked'}</td>
+                                        <td>{item.admitcard.date}</td>
+                                        <td className="no-wrap">{item.admitcard.OfficerName}</td>
+                                        
+                                        <td>{(item.admitcard.status === 'Approved')?item.interviewoutcome.status:'Not Checked'}</td>
+                                        <td className="no-wrap">{item.interviewoutcome.OfficerName}</td>
                                     </tr>
                                 ))}
                             </tbody>

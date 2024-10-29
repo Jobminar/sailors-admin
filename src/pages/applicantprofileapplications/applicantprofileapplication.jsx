@@ -51,13 +51,13 @@ export function Applicantprofileapplication() {
                                     <tr key={index}>
                                         <td>{index + 1}</td>
                                         <td onClick={()=>Handilenavigate(item.applicationId)}>{item.applicationId}</td>
-                                        <td>{item.applicationstatus ? 'Approved' : 'Rejected'}</td>
-                                        <td>{item.admitCard}</td>
-                                        <td>{item.officerName}</td>
-                                        <td>{item.selectionLetter}</td>
-                                        <td>{item.officerName}</td>
-                                        <td>{item.confirmationLetter}</td>
-                                        <td>{item.officerName}</td>
+                                        <td className="no-wrap">{item?.applicationstatus?.status}</td>
+                                        <td className="no-wrap">{item?.admitcard?.status}</td>
+                                        <td className="no-wrap">{item?.admitcard?.OfficerName}</td>
+                                        <td className="no-wrap">{item?.selectionletter?.status}</td>
+                                        <td className="no-wrap">{item?.selectionletter?.OfficerName}</td>
+                                        <td className="no-wrap">{item?.confirmationletter?.status}</td>
+                                        <td className="no-wrap">{item?.confirmationletter?.OfficerName}</td>
                                     </tr>
                                 ))}
                             </tbody>

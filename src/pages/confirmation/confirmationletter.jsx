@@ -62,9 +62,9 @@ export function Confirmationletterhead() {
                                 </p>
 
                                 <div className="mb-4">
-                                    <div className="mb-3">2nd Installment date: Rs.xxxxx/-ON 20-07-2024</div>
+                                    <div className="mb-3">2nd Installment date: <strong>Rs.{user?.confirmationletter?.InstalmentAmount2}/- {user?.confirmationletter?.InstalmentDate2}</strong> </div>
                                     <div>
-                                        3rd Installment date: Rs.xxxxx/-ON 20-08-2024
+                                        3rd Installment date: <strong>Rs.{user?.confirmationletter?.InstalmentAmount3}/- {user.confirmationletter?.InstalmentDate3}</strong>
 
                                     </div>
                                 </div>

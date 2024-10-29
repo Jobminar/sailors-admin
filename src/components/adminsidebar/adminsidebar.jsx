@@ -26,15 +26,6 @@ export function Adminsidebar({ selectedItem, setSelectedItem }) {
             <div className="admitcard-container1">
                 <h1
                     className="list-heading p-3 my-3"
-                    value="dashboardadmin"
-                    onClick={handleItemClick}
-                    style={getItemStyle("dashboardadmin")}
-                ><img src={DashboardImage} alt="Dashboard" className="mx-3" />
-                    Dashboard
-                </h1>
-
-                <h1
-                    className="list-heading p-3 my-3"
                     value="myapplication"
                     onClick={handleItemClick}
                     style={getItemStyle("myapplication")}

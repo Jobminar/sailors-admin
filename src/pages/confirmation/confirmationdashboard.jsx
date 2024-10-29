@@ -121,6 +121,7 @@ import filterimg from '../../assets/Images/filter.png'
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie";
 import axios from 'axios'
+import moment from 'moment';
 
 const Confirmationdashboard = () => {
     const navigate = useNavigate();
@@ -237,18 +238,19 @@ const Confirmationdashboard = () => {
                                     <tr key={index}>
                                         <td>{index + 1}</td>
                                         <td className="no-wrap">{item.candidateName}</td>
-                                        <td onClick={() => rollNoClicked(item.applicationId)} style={{ cursor: 'pointer' }}>
-                                            {item.applicationId}
-                                        </td>
-                                        <td style={{ cursor: 'pointer' }}>{item.applicationstatus ? "Approved" : "Rejected"}</td>
-                                        <td className="no-wrap">{adminCookie.user}</td>
-                                        <td>{item.applicationstatus ? "Generated" : "N/A"}</td>
-                                        <td>21-10-2024</td>
-                                        <td className="no-wrap">{adminCookie.user}</td>
-                                        <td>{item.applicationstatus ? "Approved" : "N/A"}</td>
-                                        <td className="no-wrap">{adminCookie.user}</td>
-                                        <td>{item.applicationstatus ? "Generated" : "N/A"}</td>
-                                        <td className="no-wrap">{adminCookie.user}</td>
+                                        <td onClick={() => rollNoClicked(item.applicationId)} style={{ cursor: 'pointer' }}>{item.applicationId}</td>
+                                        <td style={{ cursor: 'pointer' }}>{item.applicationstatus.status}</td>
+                                        <td className="no-wrap">{item.applicationstatus.OfficerName}</td> 
+                                            {/* Admit Card */}
+                                        <td className="no-wrap">{item.admitcard.status }</td>
+                                        <td>{moment(item.admitcard.date).format('YYYY-MM-DD')}</td>
+                                        <td className="no-wrap">{item.admitcard.OfficerName}</td>
+                                            {/* Interview Outcome */}
+                                        <td>{item.interviewoutcome.status}</td>
+                                        <td className="no-wrap">{item.interviewoutcome.OfficerName}</td>
+                                            {/* selection Letter updates */}
+                                        <td>{item.selectionletter.status}</td>
+                                        <td className="no-wrap">{item.selectionletter.OfficerName}</td>
                                     </tr>
                                 ))}
                             </tbody>

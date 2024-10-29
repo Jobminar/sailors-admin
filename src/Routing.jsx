@@ -24,7 +24,6 @@ import Adminprofile from "./pages/subadmin/adminprofile/adminprofile";
 import Documentuser from "./components/documentsuser/documentuser";
 import { Usercomments } from "./pages/usercomment/usercomments";
 import Adminlogin from "./pages/adminLogin/login/adminlogin";
-import Adminsign from "./pages/adminLogin/sign/sign";
 import { useCookies } from "react-cookie";
 
 const Routing = () => {
@@ -37,7 +36,8 @@ const Routing = () => {
       <BrowserRouter>
 
         {
-          (adminCookie.user) ? <div>
+          (adminCookie.user) ? 
+          <div>
             <Headeradmin />
             <Routes>
 
@@ -72,8 +72,7 @@ const Routing = () => {
             </Routes>
           </div> : <div>
             <Routes>
-              <Route path="/login" element={<Adminlogin />} />
-              <Route path="/" element={<Adminsign />} />
+              <Route path="/" element={<Adminlogin />} />
             </Routes>
           </div>
         }

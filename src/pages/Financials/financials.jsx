@@ -3,6 +3,8 @@ import TextField from '@mui/material/TextField';
 import Profile from "../profile/profile";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+
+
 export function Applicantfinance() {
     const [applicantdetails, setapplicatdetails] = useState({})
     const [btnclicked, setbtnclicked] = useState(true)
@@ -14,24 +16,46 @@ export function Applicantfinance() {
         { sNo: "03", amountPaid: "xxxxx/-", date: "xx-xx-xxxx", transactionId: "110009997612" },
         { sNo: "04", amountPaid: "xxxxx/-", date: "xx-xx-xxxx", transactionId: "110009997613" }
     ]);
+    const [Transactiondetails,setTransactionsdetails] = useState({
+        Amount:'',
+        Date:'',
+        TransactionID:''
+    })
+
     function btnviewtransaction() {
         setbtnclicked(false)
     }
     function btnreordatransaction() {
         setbtnclicked(true)
     }
+
+    const Handilesubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const transactionData = {
+                applicationId: params.applicationNo, // Add applicationId here
+                Amount: Transactiondetails.Amount,
+                Date: Transactiondetails.Date,
+                TransactionID: Transactiondetails.TransactionID
+            };
+            // await axios.post('http://127.0.0.1:7000/', Transactiondetails);
+            alert('Transaction details updated successfully');
+            setTransactionsdetails({ Amount: '', Date: '', TransactionID: '' });
+        } catch (error) {
+            console.error('Error while submitting transaction details:', error);
+            alert('Failed to update transaction details. Please try again.');
+        }
+    }
     const finduser = async () => {
         try {
             const usedata = await axios.get('http://127.0.0.1:7000/candidate')
             const users = usedata.data;
-            const findUsers = users.find((user) => user.applicationId === parseInt(params.id));
-            const filterusers = users.filter((user) => user.applicationId === parseInt(params.id))
+            const findUsers = users.find((user) => user.applicationId === parseInt(params.applicationNo));
+            const filterusers = users.filter((user) => user.applicationId === parseInt(params.applicationNo))
             settransactions(filterusers)
             setapplicatdetails(findUsers)
-
-            console.log(params)
         } catch (error) {
-
+            console.log(error,'error while uploading transcationdetails')
         }
     }
     useEffect(() => {
@@ -46,13 +70,18 @@ export function Applicantfinance() {
                 </div>
                 <div className="col-9" >
                     {btnclicked ?
-                        <form>
+                        <form onSubmit={(e)=>Handilesubmit(e)}>
                             <div >
                                 <div>
                                     <TextField className='mt-5'
                                         style={{ width: "25%" }}
                                         id="Amount Paid"
                                         label="Amount Paid"
+                                        onChange={(e) => setTransactionsdetails(prevDetails => ({
+                                            ...prevDetails,
+                                            Amount: e.target.value // Update only the Amount property
+                                        }))}
+                                        required
                                     />
                                 </div>
                                 <div>
@@ -61,6 +90,11 @@ export function Applicantfinance() {
                                         className='mt-5'
                                         id="outlined-password-input"
                                         label="Date"
+                                        onChange={(e) => setTransactionsdetails(prevDetails => ({
+                                            ...prevDetails,
+                                            Date: e.target.value // Update only the Amount property
+                                        }))}
+                                        required
 
                                     />
                                 </div>
@@ -70,9 +104,14 @@ export function Applicantfinance() {
                                         className='my-5'
                                         id="outlined-password-input"
                                         label="Transaction Id"
+                                        onChange={(e) => setTransactionsdetails(prevDetails => ({
+                                            ...prevDetails,
+                                            TransactionID: e.target.value // Update only the Amount property
+                                        }))}
+                                        required
                                     />
                                 </div>
-                                <button className="btn text-light mb-3" style={{ backgroundColor: "#EA7139", width: "25%" }}>Submit</button>
+                                <button className="btn text-light mb-3" style={{ backgroundColor: "#EA7139", width: "25%" }} type="submit">Submit</button>
                             </div>
                         </form>
                         :

@@ -10,6 +10,7 @@ export function Selectionletterhead(param) {
   const reactToPrintFn = useReactToPrint({ contentRef });
   const [user,setusers] = useState({})
   const params = useParams()
+  
   const fetchdata = async () => {
     try {
         const usedata = await axios.get('http://127.0.0.1:7001/candidates')
@@ -92,7 +93,8 @@ export function Selectionletterhead(param) {
                   services, candidates will get a much better salary as depends
                   upon the candidates Performance and hard work. We will not
                   accept any kind of Cheque/DD. You have to pay the initial amount
-                  before given date Rs.10000/-25-7-2024. For your seat
+                  before given date Rs.<strong>{user?.selectionletter?.InitialAmount}</strong>/- 
+                  <strong> {user?.selectionletter?.DeadlineDate}</strong>. For your seat
                   conformation. Reporting Date will be known to you after your
                   seat registration
                 </div>

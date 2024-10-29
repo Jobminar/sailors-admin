@@ -57,36 +57,55 @@ const ApplicationForm = () => {
       fetchFileById(formData.aadhar, setaadharPhoto);
     }
   }, [formData]);
+  
+  const HandileUpdatestaus = async (id, status) => {
+    const applicationStatus = {
+      // Update application status
+      Apstatus: status,
+      ApOfficerName: adminCookie.user,
+  
+      // Update admit card details
+      admitcardstatus: formData.admitcard.status,
+      admitcarddate: formData.admitcard.date, // Include admit card date
+      admitcardtime: formData.admitcard.time, // Include admit card time
+      admitcardofficer: formData.admitcard.OfficerName,
+  
+      // Update interview outcome details
+      interviewfeedback: formData.interviewoutcome.interviewFeedback, // Include interview feedback
+      interviewstatus:formData.interviewoutcome.status,
+      interviewofficer: formData.interviewoutcome.OfficerName,
+  
+      // Update selection letter details
+      selectionletterstatus: formData.selectionletter.status,
+      initialamount:formData?.selectionletter?.InitialAmount,
+      deadlinedate:formData?.selectionletter?.DeadlineDate,
+      selectionletterofficer: formData.selectionletter.OfficerName,
+  
+      // Update confirmation letter details
+      confirmationletterstatus: formData.confirmationletter.status,
+      instalment2amt: formData.confirmationletter.InstalmentAmount2,
+      instalment3amt: formData.confirmationletter.InstalmentAmount3,
+      instalment2dat: formData.confirmationletter.InstalmentDate2,
+      instalment3dat: formData.confirmationletter.InstalmentDate3,
+      confirmationletterofficer:  formData.confirmationletter.status,
+    };
 
-  const HandileUpdatestaus = async (id,status) => {
-    const applicationstatus = {
-      Apstatus:status,
-      ApOfficerName:adminCookie.user,
 
-      admitcardstatus:formData.admitcard.status,
-      admitcardofficer:formData.admitcard.OfficerName,
+    const userdata = {
 
-      interviewdate:formData.interviewoutcome.date,
-      interviewtime:formData.interviewoutcome.time,
-      interviewofficer:formData.interviewoutcome.OfficerName,
-
-      selectionletterstatus:formData.selectionletter.status,
-      selectionletterofficer:formData.selectionletter.OfficerName,
-
-      confirmationletterstatus:formData.confirmationletter.status,
-      confirmationletterofficer:formData.confirmationletter.OfficerName,
-    }
+    };
+  
     try {
-      const response = await axios.patch(`http://localhost:7001/candidate/${id}`,applicationstatus);
-      alert('response updated sucessfull')
+      const response = await axios.patch(`http://localhost:7001/candidate/${id}`, applicationStatus);
+      alert('Response updated successfully');
       console.log(response);
-      navigate('/dashboardadmin/myapplication')
+      navigate('/dashboardadmin/myapplication');
     } catch (error) {
       console.error(error);
-      alert('response is not updating sucessfull')
+      alert('Response update failed');
     }
   };
-
+  
 
   return (
     <>

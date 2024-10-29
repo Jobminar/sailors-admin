@@ -42,7 +42,6 @@ const Adminlogin  = () => {
                                     <dd><Field type='password' className='form-control' name='adminPassword' placeholder='Enter Your Password' /></dd>
                                     <dd className="text-danger"><ErrorMessage name='adminpassword' /></dd>
                                     <dd><button className="btn btn-dark py-2 px-5 w-100 mt-3" type='submit' >Submit</button></dd>
-                                    <dd className="d-flex justify-content-around"><div>Don't have accout?</div> <div onClick={HandileLogin}>Sing</div></dd>
                                 </dl>
                             </Form>
                         }

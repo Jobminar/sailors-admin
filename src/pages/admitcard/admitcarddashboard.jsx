@@ -112,9 +112,9 @@ const Admitcarddashboard = () => {
                                     <td onClick={()=>{btnappnoclicked(item.applicationId)}} style={{cursor:"pointer"}}>{item.candidateName}</td>
                                     <td>{item.applicationId}</td>
                                     <td>{item.applicationstatus.status}</td>
-                                    <td>{adminCookie.user}</td>
-                                    <td>Admit Card</td>
-                                    <td>{adminCookie.user}</td>
+                                    <td>{item.applicationstatus.OfficerName}</td>
+                                    <td>{(item.applicationstatus.status === 'Approved')?item.admitcard.status:'Not Checked'}</td>
+                                    <td>{item.admitcard.OfficerName}</td>
                                 </tr>
                             ))}
                         </tbody>

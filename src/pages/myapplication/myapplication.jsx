@@ -47,7 +47,7 @@ const Myapplication = () => {
         if (interviewOutcome && (item.applicationstatus ? 'Approved' : 'Not Approved') !== interviewOutcome) {
             return false;
         }
-        if (SelectNumber && item.applicationId != SelectNumber) {
+        if (SelectNumber && item.applicationId !== SelectNumber) {
             return false;
         }
         if (Selectionletter && (item.applicationstatus ? 'Approved' : 'Not Approved') !== Selectionletter) {
@@ -77,7 +77,7 @@ const Myapplication = () => {
                 <div className="col-9" style={{ width: "100%" }}>
                     <div className="btn-group   mt-2 mb-5">
                         <button className="btn btn-light">
-                            <img src={filterimg}></img>
+                            <img src={filterimg} alt='profileimg'></img>
                         </button>
                         <button className="btn btn-light">
                             Filter By
@@ -178,21 +178,23 @@ const Myapplication = () => {
                                 {filteredData.map((item, index) => (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
-                                        <td className="no-wrap">{item.candidateName}</td>
-                                        <td onClick={() => rollNoClicked(item.applicationId)} style={{ cursor: 'pointer' }}>
-                                            {item.applicationId}
-                                        </td>
+                                        <td className="no-wrap" onClick={() => rollNoClicked(item.applicationId)}>{item.candidateName}</td>
+                                        <td onClick={() => rollNoClicked(item.applicationId)} style={{ cursor: 'pointer' }}>{item.applicationId}</td>
                                         <td onClick={() => applicationStatusClicked(item.applicationId)} style={{ cursor: 'pointer' }}>{item.applicationstatus.status}</td>
-                                        <td className="no-wrap">{item.applicationstatus.OfficerName}</td>
-                                        <td>{item.applicationstatus ? "Generated" : "N/A"}</td>
-                                        <td>{moment(item.interviewoutcome.date).format('YYYY-MM-DD')}</td>
-                                        <td className="no-wrap">{adminCookie.user}</td>
-                                        <td>{item.applicationstatus ? "Approved" : "N/A"}</td>
-                                        <td className="no-wrap">{adminCookie.user}</td>
-                                        <td>{item.applicationstatus ? "Generated" : "N/A"}</td>
-                                        <td className="no-wrap">{adminCookie.user}</td>
-                                        <td>{item.applicationstatus ? "Generated" : "N/A"}</td>
-                                        <td className="no-wrap">{adminCookie.user}</td>
+                                        <td className="no-wrap">{item.applicationstatus.OfficerName}</td> 
+                                            {/* Admit Card */}
+                                        <td className="no-wrap">{(item.applicationstatus.status === 'Approved')?item.admitcard.status:'Not checked' }</td>
+                                        <td>{(item.admitcard.date)?moment(item.admitcard.date).format('YYYY-MM-DD'):'Not Created'}</td>
+                                        <td className="no-wrap">{item.admitcard.OfficerName}</td>
+                                            {/* Interview Outcome */}
+                                        <td>{(item.admitcard.status === 'Approved')?item.interviewoutcome.status:'Not checked'}</td>
+                                        <td className="no-wrap">{item.interviewoutcome.OfficerName}</td>
+                                            {/* selection Letter updates */}
+                                        <td>{(item.interviewoutcome.status === 'Approved')?item.selectionletter.status:'Not checked'}</td>
+                                        <td className="no-wrap">{item.selectionletter.OfficerName}</td>
+                                            {/* conformation Letter updates */}
+                                        <td>{(item.selectionletter.status === 'Approved')?item.selectionletter.status:'Not checked'}</td>
+                                        <td className="no-wrap">{item.confirmationletter.OfficerName}</td>
                                     </tr>
                                 ))}
                             </tbody>

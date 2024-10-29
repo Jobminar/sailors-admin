@@ -30,19 +30,32 @@ export function Admitcard() {
       Apstatus: admitcarddetails.applicationstatus.status,
       ApOfficerName: admitcarddetails.applicationstatus.OfficerName,
 
-      admitcardstatus: admitcarddetails.admitcard.status,
-      admitcardofficer: admitcarddetails.admitcard.OfficerName,
+      admitcardstatus: 'Approved',
+      admitcarddate: date,
+      admitcardtime: time,
+      admitcardofficer: adminCookie.user,
 
-      interviewdate: date,
-      interviewtime: time,
-      interviewofficer: adminCookie.user,
-
+      interviewfeedback: admitcarddetails.interviewoutcome.interviewFeedback,
+      interviewstatus:admitcarddetails.interviewoutcome.status,
+      interviewofficer: admitcarddetails.interviewoutcome.OfficerName,
+  
+      // Update selection letter details
       selectionletterstatus: admitcarddetails.selectionletter.status,
+      initialamount:admitcarddetails?.selectionletter?.InitialAmount,
+      deadlinedate:admitcarddetails?.selectionletter?.DeadlineDate,
       selectionletterofficer: admitcarddetails.selectionletter.OfficerName,
-
+  
+      // Update confirmation letter details
       confirmationletterstatus: admitcarddetails.confirmationletter.status,
-      confirmationletterofficer: admitcarddetails.confirmationletter.OfficerName,
+      instalment2amt: admitcarddetails.confirmationletter.InstalmentAmount2,
+      instalment3amt: admitcarddetails.confirmationletter.InstalmentAmount3,
+      instalment2dat: admitcarddetails.confirmationletter.InstalmentDate2,
+      instalment3dat: admitcarddetails.confirmationletter.InstalmentDate3,
+      confirmationletterofficer:  admitcarddetails.confirmationletter.status,
     }
+
+    
+
     try {
       const response = await axios.patch(`http://localhost:7001/candidate/${id}`, applicationstatus);
       alert('response updated sucessfull')
