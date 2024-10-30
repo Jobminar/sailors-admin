@@ -30,12 +30,14 @@ const Interoutcome = () => {
         
             // Update selection letter details
             selectionletterstatus: user?.selectionletter.status,
+            Totalamount:user?.selectionletter?.TotalAmount,
             initialamount:user?.selectionletter?.InitialAmount,
             deadlinedate:user?.selectionletter?.DeadlineDate,
             selectionletterofficer: user?.selectionletter.OfficerName,
         
             // Update confirmation letter details
             confirmationletterstatus: user?.confirmationletter.status,
+            JoinDate:user?.confirmationletter?.JoiningDate,
             instalment2amt: user?.confirmationletter.InstalmentAmount2,
             instalment3amt: user?.confirmationletter.InstalmentAmount3,
             instalment2dat: user?.confirmationletter.InstalmentDate2,

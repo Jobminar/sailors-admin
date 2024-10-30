@@ -13,6 +13,7 @@ export function Confirmationprofile() {
     const navigate=useNavigate();
     const {applicationNo:id}= useParams();
     const {user:applicantdetails, loading, error} =  useUserById('http://127.0.0.1:7001/candidates',id);
+    const [JoiningDate,SetJoiningDate] = useState('')
     const [Instalment2amt,setInstalment2amt] = useState('')
     const [Instalment3amt,setInstalment3amt] = useState('')
     const [Instalment2dat,setInstalment2dat] = useState('')
@@ -38,12 +39,14 @@ export function Confirmationprofile() {
         
             // Update selection letter details
             selectionletterstatus:applicantdetails?.selectionletter?.status ,
+            Totalamount:applicantdetails?.selectionletter?.TAmount,
             initialamount:applicantdetails?.selectionletter?.InitialAmount,
             deadlinedate:applicantdetails?.selectionletter?.DeadlineDate,
             selectionletterofficer: applicantdetails?.selectionletter?.OfficerName,
         
             // Update confirmation letter details
             confirmationletterstatus:'Approved',
+            JoinDate:JoiningDate,
             instalment2amt:(applicantdetails?.confirmationletter?.InstalmentAmount2)?applicantdetails?.confirmationletter?.InstalmentAmount2:Instalment2amt,
             instalment3amt:(applicantdetails?.confirmationletter?.InstalmentAmount3)?applicantdetails?.confirmationletter?.InstalmentAmount3:Instalment3amt,
             instalment2dat:(applicantdetails.confirmationletter?.InstalmentDate2)?applicantdetails.confirmationletter?.InstalmentDate2:Instalment2dat,
@@ -51,7 +54,7 @@ export function Confirmationprofile() {
             confirmationletterofficer: adminCookie.user,
 
           };
-        
+        console.log(userdata,'userd data in conformationletter')
           try {
             const response = await axios.patch(`http://localhost:7001/candidate/${id}`, userdata);
             alert('Response updated successfully');
@@ -77,10 +80,35 @@ export function Confirmationprofile() {
                         <div className='row py-1 mb-3 bg-light'>
                             <dt className='col-3'>Application Status</dt>
                             <dd className='col-3'>{applicantdetails?.applicationstatus?.status}</dd>
-                        </div >
+                        </div>
+                        <div className='row py-1 mb-3 bg-light'>
+                            <dt className='col-3'>AdmitCard Status</dt>
+                            <dd className='col-3'>{applicantdetails?.admitcard?.status}</dd>
+                        </div>
+                        <div className='row py-1 mb-3 bg-light'>
+                            <dt className='col-3'>Interview Status</dt>
+                            <dd className='col-3'>{applicantdetails?.interviewoutcome?.status}</dd>
+                        </div>
+                        <div className='row py-1 mb-3 bg-light'>
+                            <dt className='col-3'>Interview Date</dt>
+                            <dd className='col-3'>{applicantdetails?.admitcard?.date}</dd>
+                        </div>
+                        <div className='row py-1 mb-3 bg-light'>
+                            <dt className='col-3'>Interview Time</dt>
+                            <dd className='col-3'>{applicantdetails?.admitcard?.time}</dd>
+                        </div>
                         <div className='row py-1 mb-3 bg-light'>
                             <dt className='col-3'>Date of applied</dt>
                             <dd className='col-3'>{moment(applicantdetails?.createdAt).format('YYYY-MM-DD')}</dd>
+                        </div>
+                        <div className='row py-1 mb-3 bg-light'>
+                            <dt className='col-3'>Joining Date</dt>
+                            <dd className='col-3'><input type="date" onChange={(e)=>SetJoiningDate(e.target.value)} className='form-control' /></dd>
+                            
+                        </div>
+                        <div className='row py-1 mb-3 bg-light'>
+                            <dt className='col-3'>TotalAmount</dt>
+                            <dd className='col-3'>{applicantdetails?.selectionletter?.TAmount} /-</dd>
                         </div>
                         <div className='row py-1 mb-3 bg-light'>
                             <dt className='col-3'>1nd Instalment</dt>
@@ -89,13 +117,13 @@ export function Confirmationprofile() {
                         </div>
                         <div className='row  py-1 mb-3 bg-light'>
                             <dt className='col-3'>2nd Instalment</dt>
-                            <dd className='col-3'><input type="text" value={Instalment2amt} onChange={(e)=>setInstalment2amt(e.target.value)} placeholder='XXXX/-' className='form-control' /></dd>
-                            <dd className='col-3 '><input className='form-control bg-transparent' value={Instalment2dat} onChange={(e)=>setInstalment2dat(e.target.value)} type='date'></input></dd>
+                            <dd className='col-3'><input type="text" onChange={(e)=>setInstalment2amt(e.target.value)} placeholder='XXXX/-' className='form-control' /></dd>
+                            <dd className='col-3 '><input className='form-control bg-transparent'  onChange={(e)=>setInstalment2dat(e.target.value)} type='date'></input></dd>
                         </div>
                         <div className='row py-1 mb-3 bg-light'>
                             <dt className='col-3'>3nd Instalment</dt>
                             <dd className='col-3'><input type="text" value={Instalment3amt} onChange={(e)=>setInstalment3amt(e.target.value)} placeholder='XXXX/-' className='form-control' /></dd>
-                            <dd className='col-3'><input className='form-control' value={Instalment3dat} onChange={(e)=>setInstalment3dat(e.target.value)} type='date'></input></dd>
+                            <dd className='col-3'><input className='form-control'  onChange={(e)=>setInstalment3dat(e.target.value)} type='date'></input></dd>
                         </div>
                     </div>
                     <div className='text-center'>

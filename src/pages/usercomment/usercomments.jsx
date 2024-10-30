@@ -1,19 +1,20 @@
 // import { Typography } from "@mui/material";
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 export function Usercomments(){
-    const param = useParams()
-    async function  getComments(){
-        const usedata=await axios.get('http://127.0.0.1:7001/candidates')
-        const users= usedata.data;
+    const {applicationNo} = useParams()
+    const [user,setuser] = useState({})
 
+    const GetComments = async()=>{
+        const usedata= await axios.get(`http://127.0.0.1:7001/candidate/${applicationNo}`)
+        setuser(usedata.data)
     }
     useEffect(()=>{
-        getComments();
-    },[getComments])
+        GetComments();
+    },[GetComments])
 
     return(
         <div className='w-75'>
@@ -25,9 +26,9 @@ export function Usercomments(){
             >
               User comments
             </Typography>
-            <p className='mt-2 mb-5 py-1 px-2' style={{border:"1px solid black"}}>
-        undefined
-            </p>
+            <div className='card p-2'>
+                {(user?.interviewoutcome?.interviewFeedback)?user?.interviewoutcome?.interviewFeedback:'NO comments'}
+            </div>
         </div>
     )
 }

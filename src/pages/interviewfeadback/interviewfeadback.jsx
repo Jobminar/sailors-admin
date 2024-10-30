@@ -138,10 +138,10 @@ const InterviewSchedule = () => {
                             </thead>
                             <tbody>
                                 {filteredData.map((item, index) => (
-                                    <tr key={index}>
+                                    <tr key={index} onClick={() => rollNoClicked(item.applicationId)} style={{ cursor: 'pointer' }}>
                                         <td>{index + 1}</td>
                                         <td className="no-wrap">{item.candidateName}</td>
-                                        <td onClick={() => rollNoClicked(item.applicationId)} style={{ cursor: 'pointer' }}>{item.applicationId}</td>
+                                        <td>{item.applicationId}</td>
                                         
                                         <td style={{ cursor: 'pointer' }}>{item.applicationstatus.status}</td>
                                         <td className="no-wrap">{item.applicationstatus.OfficerName}</td>

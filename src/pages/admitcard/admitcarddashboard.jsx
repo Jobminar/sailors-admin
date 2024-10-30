@@ -107,9 +107,9 @@ const Admitcarddashboard = () => {
                         </thead>
                         <tbody>
                             {filteredData.map((item, index) => (
-                                <tr key={index}>
+                                <tr key={index} onClick={()=>{btnappnoclicked(item.applicationId)}} style={{cursor:"pointer"}}>
                                     <td>{index+1}</td>
-                                    <td onClick={()=>{btnappnoclicked(item.applicationId)}} style={{cursor:"pointer"}}>{item.candidateName}</td>
+                                    <td>{item.candidateName}</td>
                                     <td>{item.applicationId}</td>
                                     <td>{item.applicationstatus.status}</td>
                                     <td>{item.applicationstatus.OfficerName}</td>

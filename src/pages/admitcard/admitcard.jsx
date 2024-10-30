@@ -27,31 +27,33 @@ export function Admitcard() {
 
   const btngenereteadmit = async (id) => {
     const applicationstatus = {
-      Apstatus: admitcarddetails.applicationstatus.status,
-      ApOfficerName: admitcarddetails.applicationstatus.OfficerName,
+      Apstatus: admitcarddetails?.applicationstatus?.status,
+      ApOfficerName: admitcarddetails?.applicationstatus?.OfficerName,
 
       admitcardstatus: 'Approved',
       admitcarddate: date,
       admitcardtime: time,
       admitcardofficer: adminCookie.user,
 
-      interviewfeedback: admitcarddetails.interviewoutcome.interviewFeedback,
-      interviewstatus:admitcarddetails.interviewoutcome.status,
-      interviewofficer: admitcarddetails.interviewoutcome.OfficerName,
+      interviewfeedback: admitcarddetails?.interviewoutcome?.interviewFeedback,
+      interviewstatus:admitcarddetails?.interviewoutcome?.status,
+      interviewofficer: admitcarddetails?.interviewoutcome?.OfficerName,
   
       // Update selection letter details
-      selectionletterstatus: admitcarddetails.selectionletter.status,
+      selectionletterstatus: admitcarddetails?.selectionletter?.status,
+      Totalamount:admitcarddetails?.selectionletter?.TAmount,
       initialamount:admitcarddetails?.selectionletter?.InitialAmount,
       deadlinedate:admitcarddetails?.selectionletter?.DeadlineDate,
-      selectionletterofficer: admitcarddetails.selectionletter.OfficerName,
+      selectionletterofficer: admitcarddetails?.selectionletter?.OfficerName,
   
       // Update confirmation letter details
-      confirmationletterstatus: admitcarddetails.confirmationletter.status,
-      instalment2amt: admitcarddetails.confirmationletter.InstalmentAmount2,
-      instalment3amt: admitcarddetails.confirmationletter.InstalmentAmount3,
-      instalment2dat: admitcarddetails.confirmationletter.InstalmentDate2,
-      instalment3dat: admitcarddetails.confirmationletter.InstalmentDate3,
-      confirmationletterofficer:  admitcarddetails.confirmationletter.status,
+      confirmationletterstatus: admitcarddetails?.confirmationletter?.status,
+      JoinDate:admitcarddetails?.confirmationletter?.JoiningDate,
+      instalment2amt: admitcarddetails?.confirmationletter?.InstalmentAmount2,
+      instalment3amt: admitcarddetails?.confirmationletter?.InstalmentAmount3,
+      instalment2dat: admitcarddetails?.confirmationletter?.InstalmentDate2,
+      instalment3dat: admitcarddetails?.confirmationletter?.InstalmentDate3,
+      confirmationletterofficer:  admitcarddetails?.confirmationletter?.status,
     }
 
     

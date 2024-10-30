@@ -43,18 +43,16 @@ export function Admitcardletterhead() {
                 <h5 className="text-center leterheadtitle">Interview Letter</h5>
                 <p className="interview-letter-first-para my-3 text-center">
                   We are delighted to inform you that you have been shortlisted
-                  for an interview with SailorsWave for the position of [Job
-                  Title]. Your qualifications and experience have greatly
+                  for an interview with SailorsWave for the position of Job
+                  Title. Your qualifications and experience have greatly
                   impressed us, and we believe you could be a valuable addition to
                   our team.
                 </p>
                 <div className="mx-5 ">
                   <div>
-                    <p>
-                      <strong>Application No:</strong> {user.applicationId}
-                    </p>
-                    <p>Name of Candidate: {user.candidateName}</p>
-                    <p>Father Name: {user.fatherName}</p>
+                    <p>Application No: <strong>{user.applicationId}</strong></p>
+                    <p>Name of Candidate: <strong>{user.candidateName}</strong></p>
+                    <p>Father Name: <strong>{user.fatherName}</strong></p>
                   </div>
                   <div>
                     <img
@@ -67,9 +65,9 @@ export function Admitcardletterhead() {
                     <p>
                       <strong>Schedule:</strong>
                     </p>
-                    <p>Date of Interview: 22.06.2024</p>
-                    <p>Interview Time: 10:00 AM Interview</p>
-                    <p>Result: Announced on 24.06.2024</p>
+                    <p>Date of Interview: <strong>{user?.admitcard?.date}</strong></p>
+                    <p>Interview Time: <strong>{user?.admitcard?.time}</strong></p>
+                    <p>Result: Announced on <strong>24-06-2024</strong></p>
                   </div>
                   <div>
                     <p>

@@ -6,16 +6,11 @@ import axios from "axios";
 
 
 export function Applicantfinance() {
-    const [applicantdetails, setapplicatdetails] = useState({})
+    // const [applicantdetails, setapplicatdetails] = useState({})
     const [btnclicked, setbtnclicked] = useState(true)
-    const params = useParams()
+    const {applicationNo} = useParams()
     const [btnstyle, setbtnstyle] = useState("btn btn-outline-secondary")
-    const [transactions, settransactions] = useState([
-        { sNo: "01", amountPaid: "xxxxx/-", date: "xx-xx-xxxx", transactionId: "110009997610" },
-        { sNo: "02", amountPaid: "xxxxx/-", date: "xx-xx-xxxx", transactionId: "110009997611" },
-        { sNo: "03", amountPaid: "xxxxx/-", date: "xx-xx-xxxx", transactionId: "110009997612" },
-        { sNo: "04", amountPaid: "xxxxx/-", date: "xx-xx-xxxx", transactionId: "110009997613" }
-    ]);
+    const [transactions, settransactions] = useState([]);
     const [Transactiondetails,setTransactionsdetails] = useState({
         Amount:'',
         Date:'',
@@ -33,12 +28,12 @@ export function Applicantfinance() {
         e.preventDefault();
         try {
             const transactionData = {
-                applicationId: params.applicationNo, // Add applicationId here
+                applicationId:applicationNo, // Add applicationId here
                 Amount: Transactiondetails.Amount,
                 Date: Transactiondetails.Date,
                 TransactionID: Transactiondetails.TransactionID
             };
-            // await axios.post('http://127.0.0.1:7000/', Transactiondetails);
+            await axios.post('http://127.0.0.1:7001/Transaction', transactionData);
             alert('Transaction details updated successfully');
             setTransactionsdetails({ Amount: '', Date: '', TransactionID: '' });
         } catch (error) {
@@ -48,19 +43,15 @@ export function Applicantfinance() {
     }
     const finduser = async () => {
         try {
-            const usedata = await axios.get('http://127.0.0.1:7000/candidate')
-            const users = usedata.data;
-            const findUsers = users.find((user) => user.applicationId === parseInt(params.applicationNo));
-            const filterusers = users.filter((user) => user.applicationId === parseInt(params.applicationNo))
-            settransactions(filterusers)
-            setapplicatdetails(findUsers)
+            const usedata = await axios.get(`http://127.0.0.1:7001/Transaction/${applicationNo}`)
+            settransactions(usedata.data)
         } catch (error) {
             console.log(error,'error while uploading transcationdetails')
         }
     }
     useEffect(() => {
         finduser()
-    }, [])
+    }, [applicationNo])
     return (
         <div>
             <div className="container row">
@@ -126,11 +117,11 @@ export function Applicantfinance() {
                             </thead>
                             <tbody>
                                 {transactions.map((transaction, index) => (
-                                    <tr key={index}>
-                                        <td>{transaction.sNo}</td>
-                                        <td>{transaction.amountPaid}</td>
-                                        <td>{transaction.date}</td>
-                                        <td>{transaction.transactionId}</td>
+                                    <tr key={index+1}>
+                                        <td>{transaction.applicationId}</td>
+                                        <td>{transaction.Amount}</td>
+                                        <td>{transaction.createdAt}</td>
+                                        <td>{transaction.TransactionID}</td>
                                     </tr>
                                 ))}
                             </tbody>

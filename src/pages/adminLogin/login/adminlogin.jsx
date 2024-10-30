@@ -7,9 +7,6 @@ import * as yup from 'yup'
 const Adminlogin  = () => {
     const navigate = useNavigate('')
     const [adminCookie, setCookie, removeCookie] = useCookies(["user"]);
-    const HandileLogin = () =>{
-        navigate('/')
-    }
     return(
         <>
             <div className="d-flex justify-content-center align-items-center bg-dark" style={{height:'100vh',width:'100%'}}>
@@ -26,7 +23,7 @@ const Adminlogin  = () => {
                             try{
                                 await axios.post('http://localhost:7001/loginmainsubadmin',values)
                                 setCookie('user', values.adminEmail);
-                                navigate('/')
+                                navigate('/dashboardadmin/myapplication')
                             }catch(error){
                                 console.log(error)
                             }

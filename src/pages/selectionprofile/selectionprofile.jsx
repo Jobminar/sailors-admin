@@ -12,6 +12,7 @@ const SelectionProfile = () => {
     const [applicantdetails, setApplicantDetails] = useState([])
     const [show, setShow] = useState('d-none')
     const [date, setDate] = useState(0)
+    const [TotalAmount,setTotalAmount] = useState(null)
     const [Amount,setAmount] = useState(null)
     const {id} = useParams()
     const navigate = useNavigate('')
@@ -56,12 +57,14 @@ const SelectionProfile = () => {
         
             // Update selection letter details
             selectionletterstatus: s,
+            Totalamount:TotalAmount,
             initialamount:Amount,
             deadlinedate:date,
             selectionletterofficer: adminCookie.user,
 
             // Update confirmation letter details
             confirmationletterstatus: applicantdetails?.confirmationletter?.status,
+            JoinDate:applicantdetails?.confirmationletter?.JoiningDate,
             instalment2amt: applicantdetails?.confirmationletter?.InstalmentAmount2,
             instalment3amt: applicantdetails?.confirmationletter?.InstalmentAmount3,
             instalment2dat: applicantdetails?.confirmationletter?.InstalmentDate2,
@@ -109,16 +112,55 @@ const SelectionProfile = () => {
                             Application Status
                         </div>
                         <div className='col-6'>
+                            {applicantdetails?.applicationstatus?.status}
+                        </div>
+                    </div>
+                    <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
+                        <div className='col-6'>
+                            AdmintCard Status
+                        </div>
+                        <div className='col-6'>
+                            {applicantdetails?.admitcard?.status}
+                        </div>
+                    </div>
+                    <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
+                        <div className='col-6'>
+                            InterviewOutcome Status
+                        </div>
+                        <div className='col-6'>
                             {applicantdetails?.interviewoutcome?.status}
                         </div>
                     </div>
                     <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
                         <div className='col-6'>
+                            InterviewDate
+                        </div>
+                        <div className='col-6'>
+                            {applicantdetails?.admitcard?.date}
+                        </div>
+                    </div>
+                    <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
+                        <div className='col-6'>
+                            InterviewTime
+                        </div>
+                        <div className='col-6'>
+                            {applicantdetails?.admitcard?.time}
+                        </div>
+                    </div>
+                    <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
+                        <div className='col-6'>
                             Date of applied
-
                         </div>
                         <div className='col-6'>
                             {moment(applicantdetails.createdAt).format('YYYY-MM-DD')}
+                        </div>
+                    </div>
+                    <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
+                        <div className='col-6'>
+                            Total Amount
+                        </div>
+                        <div className='col-6'>
+                            <input type="text" name="Totalamount" className='form-control bg-transparent w-50' placeholder='Enter Total Amount' onChange={(e)=>{setTotalAmount(e.target.value)}} />
                         </div>
                     </div>
                     <div className='row bg-light mx-3 fs-5 rounded-2 py-3 mb-3'>
@@ -138,7 +180,7 @@ const SelectionProfile = () => {
                         </div>
                     </div>
                     <div className={`text-center  ${show}`}>
-                        <button className='btn py-3 fs-4' style={{backgroundColor:'#0486aa'}} onClick={()=>HandileGenerate('Generated')}>Generate Selection Letter</button>
+                        <button className='btn text-light py-3 fs-4' style={{backgroundColor:'#0878aa'}} onClick={()=>HandileGenerate('Generated')}>Generate Selection Letter</button>
                     </div>
                 </div>
             </div>

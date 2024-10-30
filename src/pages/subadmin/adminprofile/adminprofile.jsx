@@ -61,12 +61,12 @@ const Adminprofile = () => {
                     <tbody>
                         {data.map((admin, i) => (
                             <tr key={admin._id}>
-                                <td>{i + 1}</td>
+                                <td onClick={() => Handilenavigate(admin.number)}>{i + 1}</td>
                                 <td onClick={() => Handilenavigate(admin.number)}>{admin.name}</td>
-                                <td>{admin.email}</td>
-                                <td>{admin.password}</td>
-                                <td>{admin.number}</td>
-                                <td>
+                                <td onClick={() => Handilenavigate(admin.number)}>{admin.email}</td>
+                                <td onClick={() => Handilenavigate(admin.number)}>{admin.password}</td>
+                                <td onClick={() => Handilenavigate(admin.number)}>{admin.number}</td>
+                                <td onClick={() => Handilenavigate(admin.number)}>
                                     {admin.photoId ? (
                                         <img
                                             src={`http://localhost:7001/fileById/${admin.photoId}`}
